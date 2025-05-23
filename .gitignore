@@ -1,0 +1,33 @@
+# Visual Studio archivos temporales
+bin/
+obj/
+.vs/
+*.user
+*.suo
+*.cache
+packages/
+.vscode/
+
+# Archivos de depuración
+*.pdb
+*.exe
+*.dll
+
+# Archivos de configuración local
+*.config
+
+# Logs
+*.log
+
+# Archivos temporales de Windows
+Thumbs.db
+*.tmp
+*.temp
+
+# Archivos de respaldo
+*.bak
+*.orig
+
+# NuGet
+*.nupkg
+packages/
