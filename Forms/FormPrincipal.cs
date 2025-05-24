@@ -104,13 +104,17 @@ namespace ClubDeportivoSystem.Forms
 
         private void btnCarnet_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Próximamente: Formulario de Carnet", "En construcción");
+            FormCarnet formCarnet = new FormCarnet();
+            formCarnet.ShowDialog();
         }
+
 
         private void btnVencimientos_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Próximamente: Formulario de Vencimientos", "En construcción");
+            FormVencimientos formVencimientos = new FormVencimientos();
+            formVencimientos.ShowDialog();
         }
+
 
         private void btnSalir_Click(object sender, EventArgs e)
         {
