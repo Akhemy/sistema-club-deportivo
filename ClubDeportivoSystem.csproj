@@ -98,10 +98,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\CarnetDAO.cs" />
     <Compile Include="Data\CuotaDAO.cs" />
     <Compile Include="Data\DatabaseConnection.cs" />
     <Compile Include="Data\PersonaDAO.cs" />
     <Compile Include="Data\SocioDAO.cs" />
+    <Compile Include="Forms\FormCarnet.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -114,12 +118,16 @@
     <Compile Include="Forms\FormRegistro.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Models\Carnet.cs" />
     <Compile Include="Models\Cuota.cs" />
     <Compile Include="Models\NoSocio.cs" />
     <Compile Include="Models\Persona.cs" />
     <Compile Include="Models\Socio.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\FormCarnet.resx">
+      <DependentUpon>FormCarnet.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormRegistro.resx">
       <DependentUpon>FormRegistro.cs</DependentUpon>
     </EmbeddedResource>
