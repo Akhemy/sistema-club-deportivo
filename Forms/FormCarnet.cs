@@ -6,7 +6,7 @@ using ClubDeportivoSystem.Data;
 
 namespace ClubDeportivoSystem.Forms
 {
-    public partial class FormCarnet : Form
+    public class FormCarnet : Form
     {
         private Label lblTitulo;
         private GroupBox gbBuscarSocio;
@@ -410,16 +410,6 @@ namespace ClubDeportivoSystem.Forms
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void FormCarnet_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void FormCarnet_Load_1(object sender, EventArgs e)
-        {
-
         }
     }
 }
