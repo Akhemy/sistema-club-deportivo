@@ -7,7 +7,7 @@ Sistema de gestión para club deportivo desarrollado en C# con Windows Forms y M
 -  **Registro** de socios y no socios
 -  **Cobro de cuotas** mensual/diaria  
 -  **Base de datos MySQL** con XAMPP
--  **Interfaz** intuitiva y profesional
+-  **Interfaz** intuitiva
 
 ##  Tecnologías
 

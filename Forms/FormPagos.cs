@@ -305,30 +305,65 @@ namespace ClubDeportivoSystem.Forms
 
         private void btnPagar_Click(object sender, EventArgs e)
         {
-            if (socioEncontrado == null || datosDelSocio == null)
+            try
             {
-                MessageBox.Show("Debe buscar y seleccionar un socio primero.", "Validación",
-                              MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
+                if (socioEncontrado == null || datosDelSocio == null)
+                {
+                    MessageBox.Show("Debe buscar y seleccionar un socio primero.", "Validación",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string tipoCuota = rbMensual.Checked ? "mensual" : "diaria";
+                decimal monto = rbMensual.Checked ? 15000.00m : 2000.00m;
+
+                // Confirmar pago
+                string mensaje = $"¿Confirma el pago?\n\n" +
+                                $"Socio: {socioEncontrado.NombreCompleto}\n" +
+                                $"Nº Socio: {datosDelSocio.NumeroSocio}\n" +
+                                $"Tipo: Cuota {tipoCuota}\n" +
+                                $"Monto: $ {monto:F2}";
+
+                if (MessageBox.Show(mensaje, "Confirmar Pago", MessageBoxButtons.YesNo,
+                                  MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    // Registrar pago en la base de datos
+                    CuotaDAO cuotaDAO = new CuotaDAO();
+
+                    if (cuotaDAO.RegistrarPago(datosDelSocio.Id, monto, tipoCuota, "Efectivo"))
+                    {
+                        string mensajeExito = $"¡Pago registrado exitosamente en la base de datos!\n\n" +
+                                             $"Socio: {socioEncontrado.NombreCompleto}\n" +
+                                             $"Nº Socio: {datosDelSocio.NumeroSocio}\n" +
+                                             $"Tipo: Cuota {tipoCuota}\n" +
+                                             $"Monto: $ {monto:F2}\n" +
+                                             $"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}\n" +
+                                             $"Estado del socio: AL DÍA";
+
+                        MessageBox.Show(mensajeExito, "¡Pago Exitoso!",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Actualizar datos del socio en pantalla
+                        datosDelSocio.EstadoCuota = "al_dia";
+                        MostrarDatosSocio();
+
+                        // Limpiar formulario para siguiente pago
+                        txtBuscarSocio.Clear();
+                        LimpiarDatosSocio();
+                        rbMensual.Checked = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al registrar el pago en la base de datos.",
+                                      "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
-
-            string tipoCuota = rbMensual.Checked ? "Mensual" : "Diaria";
-            string monto = txtMonto.Text;
-
-            string mensaje = $"¡Pago registrado exitosamente!\n\n" +
-                           $"Socio: {socioEncontrado.NombreCompleto}\n" +
-                           $"Nº Socio: {datosDelSocio.NumeroSocio}\n" +
-                           $"Tipo: Cuota {tipoCuota}\n" +
-                           $"Monto: {monto}\n" +
-                           $"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}";
-
-            MessageBox.Show(mensaje, "Pago Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            // Limpiar formulario
-            txtBuscarSocio.Clear();
-            LimpiarDatosSocio();
-            rbMensual.Checked = true;
-            CalcularMonto();
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error inesperado al procesar el pago: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnCerrar_Click(object sender, EventArgs e)

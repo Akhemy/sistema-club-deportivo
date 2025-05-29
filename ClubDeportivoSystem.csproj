@@ -98,9 +98,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\CuotaDAO.cs" />
     <Compile Include="Data\DatabaseConnection.cs" />
     <Compile Include="Data\PersonaDAO.cs" />
     <Compile Include="Data\SocioDAO.cs" />
+    <Compile Include="Forms\FormCarnet.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Forms\FormLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -111,6 +115,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Forms\FormRegistro.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\FormVencimientos.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Models\Cuota.cs" />

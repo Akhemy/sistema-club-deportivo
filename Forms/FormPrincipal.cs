@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using ClubDeportivoSystem.Forms;
 
 namespace ClubDeportivoSystem.Forms
 {
@@ -104,12 +105,22 @@ namespace ClubDeportivoSystem.Forms
 
         private void btnCarnet_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Próximamente: Formulario de Carnet", "En construcción");
+            try
+            {
+                FormCarnet formCarnet = new FormCarnet();
+                formCarnet.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir FormCarnet: {ex.Message}",
+                               "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnVencimientos_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Próximamente: Formulario de Vencimientos", "En construcción");
+            FormVencimientos formVencimientos = new FormVencimientos();
+            formVencimientos.ShowDialog();
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
