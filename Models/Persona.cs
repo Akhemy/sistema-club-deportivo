@@ -9,6 +9,7 @@ namespace ClubDeportivoSystem.Models
         public string Apellido { get; set; }
         public string DNI { get; set; }
         public DateTime FechaRegistro { get; set; }
+        public bool AptoFisico { get; set; }
         public string TipoPersona { get; set; }
 
         public Persona()
@@ -16,12 +17,13 @@ namespace ClubDeportivoSystem.Models
             FechaRegistro = DateTime.Now;
         }
 
-        public Persona(string nombre, string apellido, string dni, string tipo)
+        public Persona(string nombre, string apellido, string dni, string tipo, bool aptoFisico)
         {
             Nombre = nombre;
             Apellido = apellido;
             DNI = dni;
             TipoPersona = tipo;
+            AptoFisico = false;
             FechaRegistro = DateTime.Now;
         }
 
