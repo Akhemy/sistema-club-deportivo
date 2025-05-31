@@ -17,6 +17,7 @@ namespace ClubDeportivoSystem.Forms
         private Label lblNombreSocio;
         private Label lblNumeroSocio;
         private Label lblEstadoCuota;
+        private Label lblTipoPersona;  // Nueva label para mostrar tipo de persona
         private Label lblTipo;
         private RadioButton rbMensual;
         private RadioButton rbDiaria;
@@ -27,7 +28,7 @@ namespace ClubDeportivoSystem.Forms
 
         private PersonaDAO personaDAO;
         private SocioDAO socioDAO;
-        private Persona socioEncontrado;
+        private Persona personaEncontrada;  // Cambié el nombre para ser más genérico
         private Socio datosDelSocio;
 
         public FormPagos()
@@ -41,7 +42,7 @@ namespace ClubDeportivoSystem.Forms
         {
             // Configurar formulario
             this.Text = "Cobro de Cuota";
-            this.Size = new Size(600, 500);
+            this.Size = new Size(600, 520);  // Aumenté la altura para el nuevo campo
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -60,15 +61,15 @@ namespace ClubDeportivoSystem.Forms
             gbDatosPago = new GroupBox();
             gbDatosPago.Text = "Datos del Pago";
             gbDatosPago.Location = new Point(50, 70);
-            gbDatosPago.Size = new Size(500, 350);
+            gbDatosPago.Size = new Size(500, 370);  // Aumenté la altura
             gbDatosPago.BackColor = Color.White;
             gbDatosPago.Font = new Font("Arial", 10, FontStyle.Bold);
 
             // Label Socio
             lblSocio = new Label();
-            lblSocio.Text = "Buscar Socio (DNI o Nombre):";
+            lblSocio.Text = "Buscar Persona (DNI o Nombre):";  // Cambié el texto
             lblSocio.Location = new Point(20, 30);
-            lblSocio.Size = new Size(180, 20);
+            lblSocio.Size = new Size(200, 20);
             lblSocio.Font = new Font("Arial", 9);
 
             // TextBox Buscar Socio
@@ -89,9 +90,9 @@ namespace ClubDeportivoSystem.Forms
 
             // Label Datos del Socio
             lblDatosSocio = new Label();
-            lblDatosSocio.Text = "Datos del Socio:";
+            lblDatosSocio.Text = "Datos de la Persona:";  // Cambié el texto
             lblDatosSocio.Location = new Point(20, 90);
-            lblDatosSocio.Size = new Size(120, 20);
+            lblDatosSocio.Size = new Size(150, 20);
             lblDatosSocio.Font = new Font("Arial", 9, FontStyle.Bold);
 
             // Labels para mostrar datos del socio
@@ -107,9 +108,16 @@ namespace ClubDeportivoSystem.Forms
             lblNumeroSocio.Size = new Size(100, 20);
             lblNumeroSocio.Font = new Font("Arial", 9);
 
+            // Nueva label para tipo de persona
+            lblTipoPersona = new Label();
+            lblTipoPersona.Text = "Tipo: -";
+            lblTipoPersona.Location = new Point(20, 140);
+            lblTipoPersona.Size = new Size(150, 20);
+            lblTipoPersona.Font = new Font("Arial", 9, FontStyle.Bold);
+
             lblEstadoCuota = new Label();
             lblEstadoCuota.Text = "Estado Cuota: -";
-            lblEstadoCuota.Location = new Point(20, 140);
+            lblEstadoCuota.Location = new Point(180, 140);
             lblEstadoCuota.Size = new Size(200, 20);
             lblEstadoCuota.Font = new Font("Arial", 9);
 
@@ -155,7 +163,7 @@ namespace ClubDeportivoSystem.Forms
             // Botón Pagar
             btnPagar = new Button();
             btnPagar.Text = "Pagar";
-            btnPagar.Location = new Point(50, 280);
+            btnPagar.Location = new Point(50, 300);  // Ajusté la posición
             btnPagar.Size = new Size(100, 35);
             btnPagar.BackColor = Color.Green;
             btnPagar.ForeColor = Color.White;
@@ -167,7 +175,7 @@ namespace ClubDeportivoSystem.Forms
             // Botón Cerrar
             btnCerrar = new Button();
             btnCerrar.Text = "Cerrar";
-            btnCerrar.Location = new Point(350, 280);
+            btnCerrar.Location = new Point(350, 300);  // Ajusté la posición
             btnCerrar.Size = new Size(100, 35);
             btnCerrar.BackColor = Color.Crimson;
             btnCerrar.ForeColor = Color.White;
@@ -182,6 +190,7 @@ namespace ClubDeportivoSystem.Forms
             gbDatosPago.Controls.Add(lblDatosSocio);
             gbDatosPago.Controls.Add(lblNombreSocio);
             gbDatosPago.Controls.Add(lblNumeroSocio);
+            gbDatosPago.Controls.Add(lblTipoPersona);  // Nueva label
             gbDatosPago.Controls.Add(lblEstadoCuota);
             gbDatosPago.Controls.Add(lblTipo);
             gbDatosPago.Controls.Add(rbMensual);
@@ -213,51 +222,61 @@ namespace ClubDeportivoSystem.Forms
                 }
 
                 // Buscar por DNI primero
-                socioEncontrado = personaDAO.ObtenerPersonaPorDNI(busqueda);
+                personaEncontrada = personaDAO.ObtenerPersonaPorDNI(busqueda);
 
-                // Si no encuentra por DNI, buscar por nombre (implementar después)
-                if (socioEncontrado == null)
+                // Si no encuentra por DNI, buscar por nombre
+                if (personaEncontrada == null)
                 {
                     MessageBox.Show("No se encontró ninguna persona con ese DNI.", "No encontrado",
                                   MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LimpiarDatosSocio();
+                    LimpiarDatosPersona();
                     return;
                 }
 
-                // Verificar que sea un socio
-                if (socioEncontrado.TipoPersona != "socio")
+                // Manejar tanto socios como no socios
+                if (personaEncontrada.TipoPersona == "socio")
                 {
-                    MessageBox.Show("La persona encontrada no es un socio.", "No es socio",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    LimpiarDatosSocio();
-                    return;
+                    // Obtener datos del socio
+                    datosDelSocio = socioDAO.ObtenerSocioPorPersonaId(personaEncontrada.Id);
+
+                    if (datosDelSocio != null)
+                    {
+                        MostrarDatosSocio();
+                        btnPagar.Enabled = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al obtener datos del socio.", "Error",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
-
-                // Obtener datos del socio
-                datosDelSocio = socioDAO.ObtenerSocioPorPersonaId(socioEncontrado.Id);
-
-                if (datosDelSocio != null)
+                else if (personaEncontrada.TipoPersona == "no_socio")
                 {
-                    MostrarDatosSocio();
+                    // Para no socios, solo permitir cuota diaria
+                    MostrarDatosNoSocio();
                     btnPagar.Enabled = true;
                 }
                 else
                 {
-                    MessageBox.Show("Error al obtener datos del socio.", "Error",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Persona no encontrada, datos no válidos.", "Tipo no válido",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    LimpiarDatosPersona();
+                    return;
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al buscar socio: {ex.Message}", "Error",
+                MessageBox.Show($"Error al buscar persona: {ex.Message}", "Error",
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void MostrarDatosSocio()
         {
-            lblNombreSocio.Text = $"Nombre: {socioEncontrado.NombreCompleto}";
+            lblNombreSocio.Text = $"Nombre: {personaEncontrada.NombreCompleto}";
             lblNumeroSocio.Text = $"Nº Socio: {datosDelSocio.NumeroSocio}";
+            lblTipoPersona.Text = "Tipo: SOCIO";
+            lblTipoPersona.ForeColor = Color.Blue;
             lblEstadoCuota.Text = $"Estado Cuota: {datosDelSocio.EstadoCuota.ToUpper()}";
 
             // Cambiar color según estado
@@ -273,17 +292,45 @@ namespace ClubDeportivoSystem.Forms
                     lblEstadoCuota.ForeColor = Color.Orange;
                     break;
             }
+
+            // Los socios pueden pagar cuota mensual o diaria?
+            rbMensual.Enabled = true;
+            rbDiaria.Enabled = false;
         }
 
-        private void LimpiarDatosSocio()
+        private void MostrarDatosNoSocio()
+        {
+            lblNombreSocio.Text = $"Nombre: {personaEncontrada.NombreCompleto}";
+            lblNumeroSocio.Text = "Nº Socio: No aplica";
+            lblTipoPersona.Text = "Tipo: NO SOCIO";
+            lblTipoPersona.ForeColor = Color.Purple;
+            lblEstadoCuota.Text = "Estado Cuota: Pago por día";
+            lblEstadoCuota.ForeColor = Color.Gray;
+
+            // Los no socios solo pueden pagar cuota diaria
+            rbMensual.Enabled = false;
+            rbDiaria.Enabled = true;
+            rbDiaria.Checked = true;  // Forzar selección de cuota diaria
+
+            CalcularMonto();  // Recalcular monto para cuota diaria
+        }
+
+        private void LimpiarDatosPersona()
         {
             lblNombreSocio.Text = "Nombre: -";
             lblNumeroSocio.Text = "Nº Socio: -";
+            lblTipoPersona.Text = "Tipo: -";
+            lblTipoPersona.ForeColor = Color.Black;
             lblEstadoCuota.Text = "Estado Cuota: -";
             lblEstadoCuota.ForeColor = Color.Black;
             btnPagar.Enabled = false;
-            socioEncontrado = null;
+            personaEncontrada = null;
             datosDelSocio = null;
+
+            // Restaurar opciones de radio buttons
+            rbMensual.Enabled = true;
+            rbDiaria.Enabled = true;
+            rbMensual.Checked = true;
         }
 
         private void rbTipoCuota_CheckedChanged(object sender, EventArgs e)
@@ -307,9 +354,9 @@ namespace ClubDeportivoSystem.Forms
         {
             try
             {
-                if (socioEncontrado == null || datosDelSocio == null)
+                if (personaEncontrada == null)
                 {
-                    MessageBox.Show("Debe buscar y seleccionar un socio primero.", "Validación",
+                    MessageBox.Show("Debe buscar y seleccionar una persona primero.", "Validación",
                                   MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
@@ -317,10 +364,21 @@ namespace ClubDeportivoSystem.Forms
                 string tipoCuota = rbMensual.Checked ? "mensual" : "diaria";
                 decimal monto = rbMensual.Checked ? 15000.00m : 2000.00m;
 
+                // Validar que no socios solo puedan pagar cuota diaria
+                if (personaEncontrada.TipoPersona == "noSocio" && rbMensual.Checked)
+                {
+                    MessageBox.Show("Los no socios solo pueden pagar cuota diaria.", "Restricción",
+                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
                 // Confirmar pago
+                string tipoPersonaTexto = personaEncontrada.TipoPersona == "socio" ?
+                    $"Nº Socio: {datosDelSocio.NumeroSocio}" : "Tipo: No Socio";
+
                 string mensaje = $"¿Confirma el pago?\n\n" +
-                                $"Socio: {socioEncontrado.NombreCompleto}\n" +
-                                $"Nº Socio: {datosDelSocio.NumeroSocio}\n" +
+                                $"Persona: {personaEncontrada.NombreCompleto}\n" +
+                                $"{tipoPersonaTexto}\n" +
                                 $"Tipo: Cuota {tipoCuota}\n" +
                                 $"Monto: $ {monto:F2}";
 
@@ -329,27 +387,46 @@ namespace ClubDeportivoSystem.Forms
                 {
                     // Registrar pago en la base de datos
                     CuotaDAO cuotaDAO = new CuotaDAO();
+                    bool pagoExitoso = false;
 
-                    if (cuotaDAO.RegistrarPago(datosDelSocio.Id, monto, tipoCuota, "Efectivo"))
+                    if (personaEncontrada.TipoPersona == "socio")
                     {
-                        string mensajeExito = $"¡Pago registrado exitosamente en la base de datos!\n\n" +
-                                             $"Socio: {socioEncontrado.NombreCompleto}\n" +
-                                             $"Nº Socio: {datosDelSocio.NumeroSocio}\n" +
+                        // Registrar pago para socio
+                        pagoExitoso = cuotaDAO.RegistrarPago(datosDelSocio.Id, monto, tipoCuota, "Efectivo");
+                    }
+                    else
+                    {
+                        // Registrar pago para no socio (necesitarás implementar este método)
+                        pagoExitoso = cuotaDAO.RegistrarPagoNoSocio(personaEncontrada.Id, monto, "Efectivo");
+                    }
+
+                    if (pagoExitoso)
+                    {
+                        string mensajeExito = $"¡Pago registrado exitosamente!\n\n" +
+                                             $"Persona: {personaEncontrada.NombreCompleto}\n" +
+                                             $"{tipoPersonaTexto}\n" +
                                              $"Tipo: Cuota {tipoCuota}\n" +
                                              $"Monto: $ {monto:F2}\n" +
-                                             $"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}\n" +
-                                             $"Estado del socio: AL DÍA";
+                                             $"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}";
+
+                        if (personaEncontrada.TipoPersona == "socio")
+                        {
+                            mensajeExito += $"\nEstado del socio: AL DÍA";
+                        }
 
                         MessageBox.Show(mensajeExito, "¡Pago Exitoso!",
                                       MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                        // Actualizar datos del socio en pantalla
-                        datosDelSocio.EstadoCuota = "al_dia";
-                        MostrarDatosSocio();
+                        // Actualizar datos del socio en pantalla si es socio
+                        if (personaEncontrada.TipoPersona == "socio" && datosDelSocio != null)
+                        {
+                            datosDelSocio.EstadoCuota = "al_dia";
+                            MostrarDatosSocio();
+                        }
 
                         // Limpiar formulario para siguiente pago
                         txtBuscarSocio.Clear();
-                        LimpiarDatosSocio();
+                        LimpiarDatosPersona();
                         rbMensual.Checked = true;
                     }
                     else

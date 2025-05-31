@@ -7,7 +7,7 @@ namespace ClubDeportivoSystem.Data
 {
     public class CuotaDAO
     {
-        // Registrar un nuevo pago
+        // Registrar un nuevo pago para socios
         public bool RegistrarPago(int socioId, decimal monto, string tipoCuota, string medioPago = "Efectivo")
         {
             try
@@ -78,7 +78,172 @@ namespace ClubDeportivoSystem.Data
             }
         }
 
-        // Obtener historial de pagos de un socio
+        // NUEVO: Registrar pago para no socios (cuota diaria)
+        public bool RegistrarPagoNoSocio(int personaId, decimal monto, string metodoPago)
+        {
+            try
+            {
+                using (MySqlConnection connection = DatabaseConnection.GetConnection())
+                {
+                    connection.Open();
+
+                    // Insertar pago diario en tabla pagos_diarios
+                    string queryPago = @"INSERT INTO pagos_diarios 
+                                        (persona_id, monto, fecha_pago, fecha_acceso, medio_pago, estado) 
+                                        VALUES 
+                                        (@persona_id, @monto, @fecha_pago, @fecha_acceso, @medio_pago, 'pagado')";
+
+                    using (MySqlCommand cmd = new MySqlCommand(queryPago, connection))
+                    {
+                        DateTime fechaActual = DateTime.Now;
+                        DateTime fechaAcceso = fechaActual.Date.AddDays(1).AddSeconds(-1); // Válido hasta las 23:59:59 de hoy
+
+                        cmd.Parameters.AddWithValue("@persona_id", personaId);
+                        cmd.Parameters.AddWithValue("@monto", monto);
+                        cmd.Parameters.AddWithValue("@fecha_pago", fechaActual);
+                        cmd.Parameters.AddWithValue("@fecha_acceso", fechaAcceso);
+                        cmd.Parameters.AddWithValue("@medio_pago", metodoPago);
+
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        return rowsAffected > 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al registrar pago de no socio: " + ex.Message);
+            }
+        }
+
+        // NUEVO: Verificar si un no socio tiene acceso válido para hoy
+        public bool TieneAccesoValidoHoy(int personaId)
+        {
+            try
+            {
+                string query = @"SELECT COUNT(*) FROM pagos_diarios 
+                               WHERE persona_id = @persona_id 
+                               AND DATE(fecha_pago) = CURDATE() 
+                               AND estado = 'pagado'";
+
+                object result = DatabaseConnection.ExecuteScalar(query, new MySqlParameter[] {
+                    new MySqlParameter("@persona_id", personaId)
+                });
+
+                return Convert.ToInt32(result) > 0;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al verificar acceso de no socio: " + ex.Message);
+            }
+        }
+
+        // NUEVO: Obtener historial de pagos diarios de un no socio
+        public List<object> ObtenerHistorialPagosNoSocio(int personaId)
+        {
+            List<object> pagos = new List<object>();
+
+            try
+            {
+                string query = @"SELECT pd.*, p.nombre, p.apellido, p.dni 
+                               FROM pagos_diarios pd
+                               INNER JOIN personas p ON pd.persona_id = p.id 
+                               WHERE pd.persona_id = @persona_id 
+                               ORDER BY pd.fecha_pago DESC 
+                               LIMIT 50"; // Limitar a los últimos 50 pagos
+
+                using (MySqlConnection connection = DatabaseConnection.GetConnection())
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@persona_id", personaId);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                pagos.Add(new
+                                {
+                                    Id = Convert.ToInt32(reader["id"]),
+                                    PersonaId = Convert.ToInt32(reader["persona_id"]),
+                                    Monto = Convert.ToDecimal(reader["monto"]),
+                                    FechaPago = Convert.ToDateTime(reader["fecha_pago"]),
+                                    FechaAcceso = Convert.ToDateTime(reader["fecha_acceso"]),
+                                    MedioPago = reader["medio_pago"].ToString(),
+                                    Estado = reader["estado"].ToString(),
+                                    Nombre = reader["nombre"].ToString(),
+                                    Apellido = reader["apellido"].ToString(),
+                                    DNI = reader["dni"].ToString()
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener historial de no socio: " + ex.Message);
+            }
+
+            return pagos;
+        }
+
+        // NUEVO: Obtener estadísticas de pagos diarios
+        public object ObtenerEstadisticasPagosDiarios(DateTime fechaDesde, DateTime fechaHasta)
+        {
+            try
+            {
+                string query = @"SELECT 
+                                   COUNT(*) as total_pagos,
+                                   SUM(monto) as total_recaudado,
+                                   COUNT(DISTINCT persona_id) as personas_distintas,
+                                   AVG(monto) as promedio_pago
+                               FROM pagos_diarios 
+                               WHERE DATE(fecha_pago) BETWEEN @fecha_desde AND @fecha_hasta 
+                               AND estado = 'pagado'";
+
+                using (MySqlConnection connection = DatabaseConnection.GetConnection())
+                {
+                    connection.Open();
+                    using (MySqlCommand command = new MySqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@fecha_desde", fechaDesde.Date);
+                        command.Parameters.AddWithValue("@fecha_hasta", fechaHasta.Date);
+
+                        using (MySqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                return new
+                                {
+                                    TotalPagos = Convert.ToInt32(reader["total_pagos"]),
+                                    TotalRecaudado = reader["total_recaudado"] != DBNull.Value ?
+                                                   Convert.ToDecimal(reader["total_recaudado"]) : 0m,
+                                    PersonasDistintas = Convert.ToInt32(reader["personas_distintas"]),
+                                    PromedioPago = reader["promedio_pago"] != DBNull.Value ?
+                                                 Convert.ToDecimal(reader["promedio_pago"]) : 0m
+                                };
+                            }
+                        }
+                    }
+                }
+
+                // Si no hay datos, devolver valores por defecto
+                return new
+                {
+                    TotalPagos = 0,
+                    TotalRecaudado = 0m,
+                    PersonasDistintas = 0,
+                    PromedioPago = 0m
+                };
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al obtener estadísticas: " + ex.Message);
+            }
+        }
+
+        // Obtener historial de pagos de un socio (método existente)
         public List<Cuota> ObtenerHistorialPagos(int socioId)
         {
             List<Cuota> cuotas = new List<Cuota>();
@@ -127,7 +292,7 @@ namespace ClubDeportivoSystem.Data
             return cuotas;
         }
 
-        // Obtener cuotas por vencer
+        // Obtener cuotas por vencer (método existente)
         public List<object> ObtenerCuotasPorVencer(DateTime fechaHasta)
         {
             List<object> sociosConVencimientos = new List<object>();
@@ -183,7 +348,7 @@ namespace ClubDeportivoSystem.Data
             return sociosConVencimientos;
         }
 
-        // Verificar si un socio tiene cuotas pendientes
+        // Verificar si un socio tiene cuotas pendientes (método existente)
         public bool TieneCuotasPendientes(int socioId)
         {
             try
