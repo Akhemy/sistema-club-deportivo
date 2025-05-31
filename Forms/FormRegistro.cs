@@ -314,14 +314,30 @@ namespace ClubDeportivoSystem.Forms
             txtNombre.Focus();
         }
 
+        private bool HayDatosIngresados()
+        {
+            return !string.IsNullOrWhiteSpace(txtNombre.Text) ||
+                   !string.IsNullOrWhiteSpace(txtApellido.Text) ||
+                   !string.IsNullOrWhiteSpace(txtDNI.Text);
+        }
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("¿Está seguro que desea cancelar? Se perderán los datos ingresados.",
-                              "Confirmar Cancelación", MessageBoxButtons.YesNo,
-                              MessageBoxIcon.Question) == DialogResult.Yes)
+            if (HayDatosIngresados())
             {
-                this.Close();
+                // Solo mostrar confirmación si hay datos
+                if (MessageBox.Show("¿Está seguro que desea cancelar? Se perderán los datos ingresados.",
+                                  "Confirmar Cancelación", MessageBoxButtons.YesNo,
+                                  MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    this.Close();
+                }
+            }
+            else
+            {
+              this.Close();
             }
         }
+
     }
+    
 }
