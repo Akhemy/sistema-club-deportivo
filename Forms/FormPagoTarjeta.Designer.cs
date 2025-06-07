@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.gbDatosTarjeta = new System.Windows.Forms.GroupBox();
+            this.lblTotal = new System.Windows.Forms.Label();
+            this.lblCuotas = new System.Windows.Forms.Label();
+            this.cmbCuotas = new System.Windows.Forms.ComboBox();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.btnConfirmar = new System.Windows.Forms.Button();
             this.txtCVV = new System.Windows.Forms.TextBox();
@@ -40,12 +43,17 @@
             this.lblTitular = new System.Windows.Forms.Label();
             this.lblNumeroTarjeta = new System.Windows.Forms.Label();
             this.lblTituloTarjeta = new System.Windows.Forms.Label();
+            this.lblTotalCuota = new System.Windows.Forms.Label();
             this.gbDatosTarjeta.SuspendLayout();
             this.SuspendLayout();
             // 
             // gbDatosTarjeta
             // 
             this.gbDatosTarjeta.BackColor = System.Drawing.Color.White;
+            this.gbDatosTarjeta.Controls.Add(this.lblTotalCuota);
+            this.gbDatosTarjeta.Controls.Add(this.lblTotal);
+            this.gbDatosTarjeta.Controls.Add(this.lblCuotas);
+            this.gbDatosTarjeta.Controls.Add(this.cmbCuotas);
             this.gbDatosTarjeta.Controls.Add(this.btnCancelar);
             this.gbDatosTarjeta.Controls.Add(this.btnConfirmar);
             this.gbDatosTarjeta.Controls.Add(this.txtCVV);
@@ -59,17 +67,55 @@
             this.gbDatosTarjeta.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.gbDatosTarjeta.Location = new System.Drawing.Point(31, 88);
             this.gbDatosTarjeta.Name = "gbDatosTarjeta";
-            this.gbDatosTarjeta.Size = new System.Drawing.Size(403, 359);
+            this.gbDatosTarjeta.Size = new System.Drawing.Size(403, 380);
             this.gbDatosTarjeta.TabIndex = 0;
             this.gbDatosTarjeta.TabStop = false;
             this.gbDatosTarjeta.Text = "Datos de la Tarjeta";
             this.gbDatosTarjeta.Enter += new System.EventHandler(this.gbDatosTarjeta_Enter);
             // 
+            // lblTotal
+            // 
+            this.lblTotal.AutoSize = true;
+            this.lblTotal.Font = new System.Drawing.Font("Arial", 9F);
+            this.lblTotal.Location = new System.Drawing.Point(25, 246);
+            this.lblTotal.Name = "lblTotal";
+            this.lblTotal.Size = new System.Drawing.Size(82, 15);
+            this.lblTotal.TabIndex = 16;
+            this.lblTotal.Text = "Total a Pagar:";
+            this.lblTotal.Click += new System.EventHandler(this.lblTotal_Click);
+            // 
+            // lblCuotas
+            // 
+            this.lblCuotas.AutoSize = true;
+            this.lblCuotas.Font = new System.Drawing.Font("Arial", 9F);
+            this.lblCuotas.Location = new System.Drawing.Point(25, 206);
+            this.lblCuotas.Name = "lblCuotas";
+            this.lblCuotas.Size = new System.Drawing.Size(121, 15);
+            this.lblCuotas.TabIndex = 15;
+            this.lblCuotas.Text = "Seleccionar Cuotas: ";
+            this.lblCuotas.Click += new System.EventHandler(this.lblCuotas_Click);
+            // 
+            // cmbCuotas
+            // 
+            this.cmbCuotas.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbCuotas.Font = new System.Drawing.Font("Arial", 9F);
+            this.cmbCuotas.FormattingEnabled = true;
+            this.cmbCuotas.Items.AddRange(new object[] {
+            "1 cuota - sin interés",
+            "3 cuotas - 10% de descuento",
+            "6 cuotas - 15 % de descuento"});
+            this.cmbCuotas.Location = new System.Drawing.Point(210, 198);
+            this.cmbCuotas.Name = "cmbCuotas";
+            this.cmbCuotas.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this.cmbCuotas.Size = new System.Drawing.Size(166, 23);
+            this.cmbCuotas.TabIndex = 14;
+            this.cmbCuotas.SelectedIndexChanged += new System.EventHandler(this.cmbCuotas_SelectedIndexChanged);
+            // 
             // btnCancelar
             // 
             this.btnCancelar.BackColor = System.Drawing.Color.Crimson;
             this.btnCancelar.ForeColor = System.Drawing.Color.White;
-            this.btnCancelar.Location = new System.Drawing.Point(276, 214);
+            this.btnCancelar.Location = new System.Drawing.Point(265, 315);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(100, 35);
             this.btnCancelar.TabIndex = 12;
@@ -82,7 +128,7 @@
             this.btnConfirmar.BackColor = System.Drawing.Color.Green;
             this.btnConfirmar.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.btnConfirmar.ForeColor = System.Drawing.Color.White;
-            this.btnConfirmar.Location = new System.Drawing.Point(28, 214);
+            this.btnConfirmar.Location = new System.Drawing.Point(28, 315);
             this.btnConfirmar.Name = "btnConfirmar";
             this.btnConfirmar.Size = new System.Drawing.Size(100, 35);
             this.btnConfirmar.TabIndex = 12;
@@ -174,18 +220,29 @@
             this.lblTituloTarjeta.BackColor = System.Drawing.Color.LightGray;
             this.lblTituloTarjeta.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold);
             this.lblTituloTarjeta.ForeColor = System.Drawing.Color.DarkBlue;
-            this.lblTituloTarjeta.Location = new System.Drawing.Point(210, 48);
+            this.lblTituloTarjeta.Location = new System.Drawing.Point(139, 34);
             this.lblTituloTarjeta.Name = "lblTituloTarjeta";
             this.lblTituloTarjeta.Size = new System.Drawing.Size(185, 26);
             this.lblTituloTarjeta.TabIndex = 1;
             this.lblTituloTarjeta.Text = "Pago con Tarjeta";
             this.lblTituloTarjeta.Click += new System.EventHandler(this.lblTituloTarjeta_Click);
             // 
+            // lblTotalCuota
+            // 
+            this.lblTotalCuota.AutoSize = true;
+            this.lblTotalCuota.Font = new System.Drawing.Font("Arial", 9F);
+            this.lblTotalCuota.Location = new System.Drawing.Point(28, 282);
+            this.lblTotalCuota.Name = "lblTotalCuota";
+            this.lblTotalCuota.Size = new System.Drawing.Size(25, 15);
+            this.lblTotalCuota.TabIndex = 17;
+            this.lblTotalCuota.Text = "En ";
+            this.lblTotalCuota.Click += new System.EventHandler(this.lblTotalCuota_Click);
+            // 
             // FormPagoTarjeta
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(471, 450);
+            this.ClientSize = new System.Drawing.Size(477, 498);
             this.Controls.Add(this.lblTituloTarjeta);
             this.Controls.Add(this.gbDatosTarjeta);
             this.Name = "FormPagoTarjeta";
@@ -211,5 +268,9 @@
         private System.Windows.Forms.Label lblTitular;
         private System.Windows.Forms.Label lblNumeroTarjeta;
         private System.Windows.Forms.Label lblTituloTarjeta;
+        private System.Windows.Forms.ComboBox cmbCuotas;
+        private System.Windows.Forms.Label lblCuotas;
+        private System.Windows.Forms.Label lblTotal;
+        private System.Windows.Forms.Label lblTotalCuota;
     }
 }
