@@ -6,7 +6,7 @@ namespace ClubDeportivoSystem.Data
     public class DatabaseConnection
     {
         // Cadena de conexión para XAMPP (sin contraseña por defecto)
-        private static string connectionString = "Server=localhost;Port=3306;Database=club_deportivo;Uid=root;Pwd=;";
+        private static string connectionString = "Server=localhost;Port=3306;Database=club_deportivo;Uid=root;Pwd=root;";
 
         public static MySqlConnection GetConnection()
         {
