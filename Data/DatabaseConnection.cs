@@ -6,7 +6,15 @@ namespace ClubDeportivoSystem.Data
     public class DatabaseConnection
     {
         // Cadena de conexión para XAMPP (sin contraseña por defecto)
-        private static string connectionString = "Server=localhost;Port=3306;Database=club_deportivo;Uid=root;Pwd=root;";
+       // private static string connectionString = "Server=localhost;Port=3306;Database=club_deportivo;Uid=root;Pwd=;";
+        private static string connectionString = null;
+        
+
+        // Método para actualizar la cadena de conexión
+        public static void SetConnectionString(string server, string port, string database, string username, string password)
+        {
+            connectionString = $"Server={server};Port={port};Database={database};Uid={username};Pwd={password};";
+        }
 
         public static MySqlConnection GetConnection()
         {
@@ -42,12 +50,10 @@ namespace ClubDeportivoSystem.Data
         {
             MySqlConnection connection = GetConnection();
             MySqlCommand command = new MySqlCommand(query, connection);
-
             if (parameters != null)
             {
                 command.Parameters.AddRange(parameters);
             }
-
             connection.Open();
             return command.ExecuteReader();
         }
@@ -66,7 +72,6 @@ namespace ClubDeportivoSystem.Data
                         {
                             command.Parameters.AddRange(parameters);
                         }
-
                         return command.ExecuteNonQuery();
                     }
                 }
@@ -91,7 +96,6 @@ namespace ClubDeportivoSystem.Data
                         {
                             command.Parameters.AddRange(parameters);
                         }
-
                         return command.ExecuteScalar();
                     }
                 }

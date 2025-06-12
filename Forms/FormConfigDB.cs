@@ -137,18 +137,6 @@ namespace ClubDeportivoSystem.Forms
             this.Controls.Add(btnCancel);
         }
 
-       /* private void LoadDefaultValues()
-        {
-            txtServer.Text = "localhost";
-            txtPort.Text = "3306";
-            txtDatabase.Text = "club_deportivo";
-            txtUsername.Text = "root";
-            txtPassword.Text = "root";
-        }
-       */
-
-
-
         private void BtnTest_Click(object sender, EventArgs e)
         {
             if (ValidateFields())
@@ -177,6 +165,16 @@ namespace ClubDeportivoSystem.Forms
         {
             if (ValidateFields())
             {
+                // Guardar en DatabaseConnection
+                ClubDeportivoSystem.Data.DatabaseConnection.SetConnectionString(
+                    txtServer.Text,
+                    txtPort.Text,
+                    txtDatabase.Text,
+                    txtUsername.Text,
+                    txtPassword.Text
+                );
+
+                // Guardar en propiedades locales
                 Server = txtServer.Text;
                 Port = txtPort.Text;
                 Database = txtDatabase.Text;
