@@ -1,8 +1,9 @@
-﻿using System;
+﻿using ClubDeportivoSystem.Data;
+using ClubDeportivoSystem.Models;
+using System;
 using System.Drawing;
 using System.Windows.Forms;
-using ClubDeportivoSystem.Data;
-using ClubDeportivoSystem.Models;
+using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
 namespace ClubDeportivoSystem.Forms
 {
@@ -19,6 +20,7 @@ namespace ClubDeportivoSystem.Forms
         private Label lblTipo;
         private RadioButton rbSocio;
         private RadioButton rbNoSocio;
+        private CheckBox chkAptoFisico;
         private Button btnGuardar;
         private Button btnCancelar;
 
@@ -31,7 +33,7 @@ namespace ClubDeportivoSystem.Forms
         {
             // Configurar formulario
             this.Text = "Registro de Socios/No Socios";
-            this.Size = new Size(500, 400);
+            this.Size = new Size(500, 450);
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -50,7 +52,7 @@ namespace ClubDeportivoSystem.Forms
             gbDatos = new GroupBox();
             gbDatos.Text = "Datos Personales";
             gbDatos.Location = new Point(50, 70);
-            gbDatos.Size = new Size(400, 220);
+            gbDatos.Size = new Size(400, 270);
             gbDatos.BackColor = Color.White;
             gbDatos.Font = new Font("Arial", 10, FontStyle.Bold);
 
@@ -116,10 +118,19 @@ namespace ClubDeportivoSystem.Forms
             rbNoSocio.Size = new Size(100, 25);
             rbNoSocio.Font = new Font("Arial", 9);
 
+            //CheckBox Apto FísicoMore actions
+            chkAptoFisico = new CheckBox();
+            chkAptoFisico.Text = "Entregó Apto Físico";
+            chkAptoFisico.Location = new Point(130, 190);
+            chkAptoFisico.Size = new Size(200, 25);
+            chkAptoFisico.Font = new Font("Arial", 9);
+            chkAptoFisico.BackColor = Color.Transparent;
+            chkAptoFisico.CheckedChanged += new EventHandler(chkAptoFisico_CheckedChanged);
+
             // Botón Guardar
             btnGuardar = new Button();
             btnGuardar.Text = "Guardar";
-            btnGuardar.Location = new Point(50, 310);
+            btnGuardar.Location = new Point(50, 360);
             btnGuardar.Size = new Size(100, 35);
             btnGuardar.BackColor = Color.DodgerBlue;
             btnGuardar.ForeColor = Color.White;
@@ -130,7 +141,7 @@ namespace ClubDeportivoSystem.Forms
             // Botón Cancelar
             btnCancelar = new Button();
             btnCancelar.Text = "Cancelar";
-            btnCancelar.Location = new Point(350, 310);
+            btnCancelar.Location = new Point(350, 360);
             btnCancelar.Size = new Size(100, 35);
             btnCancelar.BackColor = Color.Crimson;
             btnCancelar.ForeColor = Color.White;
@@ -148,6 +159,7 @@ namespace ClubDeportivoSystem.Forms
             gbDatos.Controls.Add(lblTipo);
             gbDatos.Controls.Add(rbSocio);
             gbDatos.Controls.Add(rbNoSocio);
+            gbDatos.Controls.Add(chkAptoFisico);
 
             // Agregar controles al formulario
             this.Controls.Add(lblTitulo);
@@ -155,6 +167,13 @@ namespace ClubDeportivoSystem.Forms
             this.Controls.Add(btnGuardar);
             this.Controls.Add(btnCancelar);
         }
+
+
+        private void chkAptoFisico_CheckedChanged(object sender, EventArgs e) 
+        {
+            // Podriamos mostrar una fecha de vencimiento si está marcado
+        }
+
 
         // Solo permitir números en el campo DNI
         private void txtDNI_KeyPress(object sender, KeyPressEventArgs e)
@@ -196,7 +215,8 @@ namespace ClubDeportivoSystem.Forms
                     txtNombre.Text.Trim(),
                     txtApellido.Text.Trim(),
                     txtDNI.Text.Trim(),
-                    tipoPersona
+                    tipoPersona,
+                    chkAptoFisico.Checked
                 );
 
                 // Insertar persona en la base de datos
@@ -219,6 +239,7 @@ namespace ClubDeportivoSystem.Forms
                                                $"Nombre: {nuevaPersona.NombreCompleto}\n" +
                                                $"DNI: {nuevaPersona.DNI}\n" +
                                                $"Número de Socio: {socioCreado?.NumeroSocio}\n" +
+                                               $"Apto Físico: {(chkAptoFisico.Checked ? "Entregado" : "No entregado")}\n" +
                                                $"Fecha de registro: {DateTime.Now:dd/MM/yyyy}";
 
                                 MessageBox.Show(mensaje, "¡Registro Exitoso!",
@@ -238,6 +259,7 @@ namespace ClubDeportivoSystem.Forms
                                 string mensaje = $"¡NO SOCIO registrado exitosamente en la base de datos!\n\n" +
                                                $"Nombre: {nuevaPersona.NombreCompleto}\n" +
                                                $"DNI: {nuevaPersona.DNI}\n" +
+                                               $"Apto Físico: {(chkAptoFisico.Checked ? "Entregado" : "No entregado")}\n" +
                                                $"Fecha de registro: {DateTime.Now:dd/MM/yyyy}";
 
                                 MessageBox.Show(mensaje, "¡Registro Exitoso!",
@@ -311,17 +333,53 @@ namespace ClubDeportivoSystem.Forms
             txtDNI.Clear();
             rbSocio.Checked = true;
             rbNoSocio.Checked = false;
+            chkAptoFisico.Checked = false;
             txtNombre.Focus();
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("¿Está seguro que desea cancelar? Se perderán los datos ingresados.",
-                              "Confirmar Cancelación", MessageBoxButtons.YesNo,
-                              MessageBoxIcon.Question) == DialogResult.Yes)
+            // Verificar si hay datos ingresados
+            if (HayDatosIngresados())
             {
+                if (MessageBox.Show("¿Está seguro que desea cancelar? Se perderán los datos ingresados.",
+                                  "Confirmar Cancelación", MessageBoxButtons.YesNo,
+                                  MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    this.Close();
+                }
+            }
+            else
+            {
+                // Si no hay datos, cerrar directamente sin advertencia
                 this.Close();
             }
+        }
+
+        private bool HayDatosIngresados()
+        {
+            // Verificar si algún campo tiene texto
+            if (!string.IsNullOrWhiteSpace(txtNombre.Text) ||
+                !string.IsNullOrWhiteSpace(txtApellido.Text) ||
+                !string.IsNullOrWhiteSpace(txtDNI.Text))
+            {
+                return true;
+            }
+
+            // Verificar si los radio buttons han cambiado del estado por defecto
+            // (por defecto rbSocio está marcado)
+            if (!rbSocio.Checked)
+            {
+                return true;
+            }
+
+            // Verificar si el checkbox está marcado
+            if (chkAptoFisico.Checked)
+            {
+                return true;
+            }
+
+            return false;
         }
     }
 }

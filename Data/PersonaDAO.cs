@@ -12,14 +12,15 @@ namespace ClubDeportivoSystem.Data
         {
             try
             {
-                string query = @"INSERT INTO personas (nombre, apellido, dni, tipo_persona) 
-                               VALUES (@nombre, @apellido, @dni, @tipo)";
+                string query = @"INSERT INTO personas (nombre, apellido, dni, tipo_persona,apto_fisico) 
+                               VALUES (@nombre, @apellido, @dni, @tipo, @apto_fisico)";
 
                 MySqlParameter[] parameters = {
                     new MySqlParameter("@nombre", persona.Nombre),
                     new MySqlParameter("@apellido", persona.Apellido),
                     new MySqlParameter("@dni", persona.DNI),
-                    new MySqlParameter("@tipo", persona.TipoPersona)
+                    new MySqlParameter("@tipo", persona.TipoPersona),
+                    new MySqlParameter("@apto_fisico", persona.AptoFisico)
                 };
 
                 int result = DatabaseConnection.ExecuteNonQuery(query, parameters);
@@ -80,6 +81,7 @@ namespace ClubDeportivoSystem.Data
                                     Apellido = reader["apellido"].ToString(),
                                     DNI = reader["dni"].ToString(),
                                     TipoPersona = reader["tipo_persona"].ToString(),
+                                    AptoFisico = reader["apto_fisico"].Equals(true),
                                     FechaRegistro = Convert.ToDateTime(reader["fecha_registro"])
                                 };
                             }
@@ -119,6 +121,7 @@ namespace ClubDeportivoSystem.Data
                                     Apellido = reader["apellido"].ToString(),
                                     DNI = reader["dni"].ToString(),
                                     TipoPersona = reader["tipo_persona"].ToString(),
+                                    AptoFisico = reader["apto_fisico"].Equals(true),
                                     FechaRegistro = Convert.ToDateTime(reader["fecha_registro"])
                                 });
                             }

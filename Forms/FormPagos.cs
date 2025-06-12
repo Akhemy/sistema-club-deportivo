@@ -44,6 +44,9 @@ namespace ClubDeportivoSystem.Forms
         {
             this.lblTitulo = new System.Windows.Forms.Label();
             this.gbDatosPago = new System.Windows.Forms.GroupBox();
+            this.gbTipoPago = new System.Windows.Forms.GroupBox();
+            this.rbTarjeta = new System.Windows.Forms.RadioButton();
+            this.rbEfectivo = new System.Windows.Forms.RadioButton();
             this.lblSocio = new System.Windows.Forms.Label();
             this.txtBuscarSocio = new System.Windows.Forms.TextBox();
             this.btnBuscar = new System.Windows.Forms.Button();
@@ -58,9 +61,6 @@ namespace ClubDeportivoSystem.Forms
             this.txtMonto = new System.Windows.Forms.TextBox();
             this.btnPagar = new System.Windows.Forms.Button();
             this.btnCerrar = new System.Windows.Forms.Button();
-            this.gbTipoPago = new System.Windows.Forms.GroupBox();
-            this.rbEfectivo = new System.Windows.Forms.RadioButton();
-            this.rbTarjeta = new System.Windows.Forms.RadioButton();
             this.gbDatosPago.SuspendLayout();
             this.gbTipoPago.SuspendLayout();
             this.SuspendLayout();
@@ -101,6 +101,46 @@ namespace ClubDeportivoSystem.Forms
             this.gbDatosPago.TabIndex = 1;
             this.gbDatosPago.TabStop = false;
             this.gbDatosPago.Text = "Datos del Pago";
+            this.gbDatosPago.Enter += new System.EventHandler(this.gbDatosPago_Enter);
+            // 
+            // gbTipoPago
+            // 
+            this.gbTipoPago.Controls.Add(this.rbTarjeta);
+            this.gbTipoPago.Controls.Add(this.rbEfectivo);
+            this.gbTipoPago.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
+            this.gbTipoPago.Location = new System.Drawing.Point(23, 254);
+            this.gbTipoPago.Name = "gbTipoPago";
+            this.gbTipoPago.Size = new System.Drawing.Size(390, 64);
+            this.gbTipoPago.TabIndex = 16;
+            this.gbTipoPago.TabStop = false;
+            this.gbTipoPago.Text = "Tipo de Pago";
+            this.gbTipoPago.Enter += new System.EventHandler(this.groupBox1_Enter);
+            // 
+            // rbTarjeta
+            // 
+            this.rbTarjeta.AutoSize = true;
+            this.rbTarjeta.Font = new System.Drawing.Font("Arial", 9F);
+            this.rbTarjeta.Location = new System.Drawing.Point(271, 22);
+            this.rbTarjeta.Name = "rbTarjeta";
+            this.rbTarjeta.Size = new System.Drawing.Size(62, 19);
+            this.rbTarjeta.TabIndex = 14;
+            this.rbTarjeta.Text = "Tarjeta";
+            this.rbTarjeta.UseVisualStyleBackColor = true;
+            this.rbTarjeta.CheckedChanged += new System.EventHandler(this.rbTarjeta_CheckedChanged);
+            // 
+            // rbEfectivo
+            // 
+            this.rbEfectivo.AutoSize = true;
+            this.rbEfectivo.Checked = true;
+            this.rbEfectivo.Font = new System.Drawing.Font("Arial", 9F);
+            this.rbEfectivo.Location = new System.Drawing.Point(91, 22);
+            this.rbEfectivo.Name = "rbEfectivo";
+            this.rbEfectivo.Size = new System.Drawing.Size(67, 19);
+            this.rbEfectivo.TabIndex = 14;
+            this.rbEfectivo.TabStop = true;
+            this.rbEfectivo.Text = "Efectivo";
+            this.rbEfectivo.UseVisualStyleBackColor = true;
+            this.rbEfectivo.CheckedChanged += new System.EventHandler(this.rbEfectivo_CheckedChanged);
             // 
             // lblSocio
             // 
@@ -246,45 +286,6 @@ namespace ClubDeportivoSystem.Forms
             this.btnCerrar.Text = "Cerrar";
             this.btnCerrar.UseVisualStyleBackColor = false;
             this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
-            // 
-            // gbTipoPago
-            // 
-            this.gbTipoPago.Controls.Add(this.rbTarjeta);
-            this.gbTipoPago.Controls.Add(this.rbEfectivo);
-            this.gbTipoPago.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
-            this.gbTipoPago.Location = new System.Drawing.Point(23, 254);
-            this.gbTipoPago.Name = "gbTipoPago";
-            this.gbTipoPago.Size = new System.Drawing.Size(390, 64);
-            this.gbTipoPago.TabIndex = 16;
-            this.gbTipoPago.TabStop = false;
-            this.gbTipoPago.Text = "Tipo de Pago";
-            this.gbTipoPago.Enter += new System.EventHandler(this.groupBox1_Enter);
-            // 
-            // rbEfectivo
-            // 
-            this.rbEfectivo.AutoSize = true;
-            this.rbEfectivo.Checked = true;
-            this.rbEfectivo.Font = new System.Drawing.Font("Arial", 9F);
-            this.rbEfectivo.Location = new System.Drawing.Point(91, 22);
-            this.rbEfectivo.Name = "rbEfectivo";
-            this.rbEfectivo.Size = new System.Drawing.Size(67, 19);
-            this.rbEfectivo.TabIndex = 14;
-            this.rbEfectivo.TabStop = true;
-            this.rbEfectivo.Text = "Efectivo";
-            this.rbEfectivo.UseVisualStyleBackColor = true;
-            this.rbEfectivo.CheckedChanged += new System.EventHandler(this.rbEfectivo_CheckedChanged);
-            // 
-            // rbTarjeta
-            // 
-            this.rbTarjeta.AutoSize = true;
-            this.rbTarjeta.Font = new System.Drawing.Font("Arial", 9F);
-            this.rbTarjeta.Location = new System.Drawing.Point(271, 22);
-            this.rbTarjeta.Name = "rbTarjeta";
-            this.rbTarjeta.Size = new System.Drawing.Size(62, 19);
-            this.rbTarjeta.TabIndex = 14;
-            this.rbTarjeta.Text = "Tarjeta";
-            this.rbTarjeta.UseVisualStyleBackColor = true;
-            this.rbTarjeta.CheckedChanged += new System.EventHandler(this.rbTarjeta_CheckedChanged);
             // 
             // FormPagos
             // 
@@ -509,6 +510,11 @@ namespace ClubDeportivoSystem.Forms
         }
 
         private void rbTarjeta_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void gbDatosPago_Enter(object sender, EventArgs e)
         {
 
         }
