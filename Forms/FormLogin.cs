@@ -17,7 +17,30 @@ namespace ClubDeportivoSystem.Forms
         public FormLogin()
         {
             InitializeComponent();
+            MostrarConfiguracionBD();
         }
+
+        private void MostrarConfiguracionBD()
+        {
+            FormConfigDB configForm = new FormConfigDB();
+
+            if (configForm.ShowDialog() == DialogResult.OK)
+            {
+                // Configuración exitosa, continuar con el login
+                MessageBox.Show("Base de datos configurada correctamente.", "Configuración Exitosa",
+                    MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                // Usuario canceló, cerrar aplicación
+                MessageBox.Show("Es necesario configurar la base de datos para continuar.", "Configuración Requerida",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                Application.Exit();
+            }
+        }
+
+
+
 
         private void InitializeComponent()
         {
