@@ -23,7 +23,7 @@ namespace ClubDeportivoSystem.Models
             Apellido = apellido;
             DNI = dni;
             TipoPersona = tipo;
-            AptoFisico = false;
+            AptoFisico = aptoFisico;
             FechaRegistro = DateTime.Now;
            
         }

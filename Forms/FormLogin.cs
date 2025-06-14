@@ -17,7 +17,6 @@ namespace ClubDeportivoSystem.Forms
         public FormLogin()
         {
             InitializeComponent();
-            MostrarConfiguracionBD();
         }
 
         private void MostrarConfiguracionBD()
