@@ -100,6 +100,7 @@
   <ItemGroup>
     <Compile Include="Data\CuotaDAO.cs" />
     <Compile Include="Data\DatabaseConnection.cs" />
+    <Compile Include="Data\PagoDiarioDAO.cs" />
     <Compile Include="Data\PersonaDAO.cs" />
     <Compile Include="Data\SocioDAO.cs" />
     <Compile Include="Forms\FormCarnet.cs">

@@ -92,7 +92,7 @@ namespace ClubDeportivoSystem.Forms
             lblDatos.Font = new Font("Arial", 12);
             lblDatos.ForeColor = Color.Gray;
             lblDatos.Location = new Point(30, 80);
-            lblDatos.Size = new Size(540, 150);
+            lblDatos.Size = new Size(540, 170);
             lblDatos.TextAlign = ContentAlignment.MiddleLeft;
 
             pnlCarnet.Controls.Add(lblCarnetTitulo);

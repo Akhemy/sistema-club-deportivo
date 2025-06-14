@@ -32,11 +32,13 @@ namespace ClubDeportivoSystem.Forms
         private RadioButton rbTarjeta;
         private RadioButton rbEfectivo;
         private Socio datosDelSocio;
+        private PagoDiarioDAO pagoDiarioDAO;
 
         public FormPagos()
         {
             personaDAO = new PersonaDAO();
             socioDAO = new SocioDAO();
+            pagoDiarioDAO = new PagoDiarioDAO();
             InitializeComponent();
         }
 
@@ -298,6 +300,7 @@ namespace ClubDeportivoSystem.Forms
             this.Name = "FormPagos";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Cobro de Cuota";
+            this.Load += new System.EventHandler(this.FormPagos_Load);
             this.gbDatosPago.ResumeLayout(false);
             this.gbDatosPago.PerformLayout();
             this.gbTipoPago.ResumeLayout(false);
@@ -306,7 +309,7 @@ namespace ClubDeportivoSystem.Forms
 
         }
 
-        private void btnBuscar_Click(object sender, EventArgs e)
+      private void btnBuscar_Click(object sender, EventArgs e)
         {
             try
             {
@@ -331,34 +334,45 @@ namespace ClubDeportivoSystem.Forms
                     return;
                 }
 
-                // Verificar que sea un socio
-                if (socioEncontrado.TipoPersona != "socio")
+                // Si es socio, obtener datos del socio
+                if (socioEncontrado.TipoPersona == "socio")
                 {
-                    MessageBox.Show("La persona encontrada no es un socio.", "No es socio",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    LimpiarDatosSocio();
-                    return;
-                }
+                    datosDelSocio = socioDAO.ObtenerSocioPorPersonaId(socioEncontrado.Id);
 
-                // Obtener datos del socio
-                datosDelSocio = socioDAO.ObtenerSocioPorPersonaId(socioEncontrado.Id);
-
-                if (datosDelSocio != null)
-                {
-                    MostrarDatosSocio();
-                    btnPagar.Enabled = true;
+                    if (datosDelSocio != null)
+                    {
+                        MostrarDatosSocio();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al obtener datos del socio.", "Error",
+                                      MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
                 }
                 else
                 {
-                    MessageBox.Show("Error al obtener datos del socio.", "Error",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    // Es no_socio, mostrar datos básicos
+                    datosDelSocio = null; // No tiene datos de socio
+                    MostrarDatosNoSocio();
                 }
+
+                btnPagar.Enabled = true;
+                CalcularMonto();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Error al buscar socio: {ex.Message}", "Error",
+                MessageBox.Show($"Error al buscar persona: {ex.Message}", "Error",
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void MostrarDatosNoSocio()
+        {
+            lblNombreSocio.Text = $"Nombre: {socioEncontrado.NombreCompleto}";
+            lblNumeroSocio.Text = "Nº Socio: NO SOCIO";
+            lblEstadoCuota.Text = "Estado Cuota: NO APLICA";
+            lblEstadoCuota.ForeColor = Color.Blue;
         }
 
         private void MostrarDatosSocio()
@@ -410,14 +424,127 @@ namespace ClubDeportivoSystem.Forms
             }
         }
 
+        /*  private void btnPagar_Click(object sender, EventArgs e)
+          {
+              try
+              {
+                  if (socioEncontrado == null)
+                  {
+                      MessageBox.Show("Debe buscar y seleccionar un socio primero.", "Validación",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                      return;
+                  }
+
+                  string tipoCuota = rbMensual.Checked ? "mensual" : "diaria";
+                  decimal monto = rbMensual.Checked ? 15000.00m : 2000.00m;
+
+                  if (!rbEfectivo.Checked && !rbTarjeta.Checked)
+                  {
+                      MessageBox.Show("Seleccione un medio de pago (Efectivo o Tarjeta).", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                      return;
+                  }
+
+                  string medioPago = rbEfectivo.Checked ? "Efectivo" : "Tarjeta";
+
+                  // Si es TARJETA => abrir formulario de datos de tarjeta
+                  if (rbTarjeta.Checked)
+                  {
+                      using (var frmTarjeta = new FormPagoTarjeta(monto))
+                      {
+                          if (frmTarjeta.ShowDialog() != DialogResult.OK)
+                          {
+                              // Usuario canceló o datos inválidos.
+                              return;
+                          }
+                      }
+                  }
+
+                  // Preparar mensaje según si es socio o no
+                  string numeroSocio = datosDelSocio != null ? datosDelSocio.NumeroSocio.ToString() : "NO SOCIO";
+
+                  // Confirmar pago
+                  string mensaje = $"¿Confirma el pago?\n\n" +
+                                  $"Socio: {socioEncontrado.NombreCompleto}\n" +
+                                  $"Nº Socio: {(datosDelSocio != null ? datosDelSocio.NumeroSocio.ToString() : "NO SOCIO")}\n" +
+                                  $"Tipo: Cuota {tipoCuota}\n" +
+                                  $"Monto: $ {monto:F2}";
+
+                  if (MessageBox.Show(mensaje, "Confirmar Pago", MessageBoxButtons.YesNo,
+                                    MessageBoxIcon.Question) == DialogResult.Yes)
+                  {
+                      // Registrar pago en la base de datos
+                      CuotaDAO cuotaDAO = new CuotaDAO();
+
+                      // Para no socios, usar ID de la persona
+                      int idParaPago = datosDelSocio != null ? datosDelSocio.Id : socioEncontrado.Id;
+
+
+
+                      if (cuotaDAO.RegistrarPago(datosDelSocio.Id, monto, tipoCuota, "Efectivo"))
+                      {
+                          string mensajeExito = $"¡Pago registrado exitosamente en la base de datos!\n\n" +
+                                               $"Socio: {socioEncontrado.NombreCompleto}\n" +
+                                               $"Nº Socio: {(datosDelSocio != null ? datosDelSocio.NumeroSocio.ToString() : "NO SOCIO")}\n" +
+                                               $"Tipo: Cuota {tipoCuota}\n" +
+                                               $"Monto: $ {monto:F2}\n" +
+                                               $"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}\n" +
+                                               $"Estado del socio: AL DÍA";
+
+                          MessageBox.Show(mensajeExito, "¡Pago Exitoso!",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                          // Actualizar datos del socio en pantalla
+                          datosDelSocio.EstadoCuota = "al_dia";
+                          MostrarDatosSocio();
+
+                          // Limpiar formulario para siguiente pago
+                          txtBuscarSocio.Clear();
+                          LimpiarDatosSocio();
+                          rbMensual.Checked = true;
+                      }
+                      else
+                      {
+                          // Es un no socio, registrar en pagos_diarios
+                          if (pagoDiarioDAO.RegistrarPagoNoSocio(socioEncontrado.Id, monto, tipoCuota, medioPago, "Pago de no socio"))
+                          {
+                              // Actualizar contador de actividades
+                              pagoDiarioDAO.ActualizarActividadesNoSocio(socioEncontrado.Id);
+
+                              string mensajeExito = $"¡Pago registrado exitosamente!\n\n" +
+                                                   $"Persona: {socioEncontrado.NombreCompleto}\n" +
+                                                   $"Tipo: Cuota {tipoCuota} (NO SOCIO)\n" +
+                                                   $"Monto: $ {monto:F2}\n" +
+                                                   $"Medio de Pago: {medioPago}\n" +
+                                                   $"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}\n" +
+                                                   $"Estado: REGISTRADO EN PAGOS DIARIOS";
+
+                              MessageBox.Show(mensajeExito, "¡Pago Registrado!",
+                                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+                          }
+                          else
+                          {
+                              MessageBox.Show("Error al registrar el pago diario en la base de datos.",
+                                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                              return; // No limpiar si hubo error
+                          }
+                      }
+                  }
+              }
+              catch (Exception ex)
+              {
+                  MessageBox.Show($"Error inesperado al procesar el pago: {ex.Message}", "Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+              }
+          }*/
+
         private void btnPagar_Click(object sender, EventArgs e)
         {
             try
             {
-                if (socioEncontrado == null || datosDelSocio == null)
+                if (socioEncontrado == null)
                 {
-                    MessageBox.Show("Debe buscar y seleccionar un socio primero.", "Validación",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("Debe buscar y seleccionar un socio o persona primero.", "Validación",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -447,29 +574,34 @@ namespace ClubDeportivoSystem.Forms
 
                 // Confirmar pago
                 string mensaje = $"¿Confirma el pago?\n\n" +
-                                $"Socio: {socioEncontrado.NombreCompleto}\n" +
-                                $"Nº Socio: {datosDelSocio.NumeroSocio}\n" +
-                                $"Tipo: Cuota {tipoCuota}\n" +
-                                $"Monto: $ {monto:F2}";
+                                 $"Socio: {socioEncontrado.NombreCompleto}\n" +
+                                 $"Nº Socio: {(datosDelSocio != null ? datosDelSocio.NumeroSocio.ToString() : "NO SOCIO")}\n" +
+                                 $"Tipo: Cuota {tipoCuota}\n" +
+                                 $"Monto: $ {monto:F2}";
 
                 if (MessageBox.Show(mensaje, "Confirmar Pago", MessageBoxButtons.YesNo,
-                                  MessageBoxIcon.Question) == DialogResult.Yes)
+                                    MessageBoxIcon.Question) != DialogResult.Yes)
                 {
-                    // Registrar pago en la base de datos
-                    CuotaDAO cuotaDAO = new CuotaDAO();
+                    return;
+                }
 
-                    if (cuotaDAO.RegistrarPago(datosDelSocio.Id, monto, tipoCuota, "Efectivo"))
+                CuotaDAO cuotaDAO = new CuotaDAO();
+
+                if (datosDelSocio != null)
+                {
+                    // Es socio: registrar pago de cuota
+                    if (cuotaDAO.RegistrarPago(datosDelSocio.Id, monto, tipoCuota, medioPago))
                     {
                         string mensajeExito = $"¡Pago registrado exitosamente en la base de datos!\n\n" +
-                                             $"Socio: {socioEncontrado.NombreCompleto}\n" +
-                                             $"Nº Socio: {datosDelSocio.NumeroSocio}\n" +
-                                             $"Tipo: Cuota {tipoCuota}\n" +
-                                             $"Monto: $ {monto:F2}\n" +
-                                             $"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}\n" +
-                                             $"Estado del socio: AL DÍA";
+                                              $"Socio: {socioEncontrado.NombreCompleto}\n" +
+                                              $"Nº Socio: {datosDelSocio.NumeroSocio}\n" +
+                                              $"Tipo: Cuota {tipoCuota}\n" +
+                                              $"Monto: $ {monto:F2}\n" +
+                                              $"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}\n" +
+                                              $"Estado del socio: AL DÍA";
 
                         MessageBox.Show(mensajeExito, "¡Pago Exitoso!",
-                                      MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                         // Actualizar datos del socio en pantalla
                         datosDelSocio.EstadoCuota = "al_dia";
@@ -482,18 +614,49 @@ namespace ClubDeportivoSystem.Forms
                     }
                     else
                     {
-                        MessageBox.Show("Error al registrar el pago en la base de datos.",
-                                      "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("Error al registrar el pago en la base de datos.", "Error",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
+                    }
+                }
+                else
+                {
+                    // Es no socio: registrar en pagos_diarios
+                    if (pagoDiarioDAO.RegistrarPagoNoSocio(socioEncontrado.Id, monto, tipoCuota, medioPago, "Pago de no socio"))
+                    {
+                        // Actualizar contador de actividades
+                        pagoDiarioDAO.ActualizarActividadesNoSocio(socioEncontrado.Id);
+
+                        string mensajeExito = $"¡Pago registrado exitosamente!\n\n" +
+                                             $"Persona: {socioEncontrado.NombreCompleto}\n" +
+                                             $"Tipo: Cuota {tipoCuota} (NO SOCIO)\n" +
+                                             $"Monto: $ {monto:F2}\n" +
+                                             $"Medio de Pago: {medioPago}\n" +
+                                             $"Fecha: {DateTime.Now:dd/MM/yyyy HH:mm}\n" +
+                                             $"Estado: REGISTRADO EN PAGOS DIARIOS";
+
+                        MessageBox.Show(mensajeExito, "¡Pago Registrado!",
+                                        MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                        // Limpiar formulario para siguiente pago
+                        txtBuscarSocio.Clear();
+                        LimpiarDatosSocio();
+                        rbMensual.Checked = true;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error al registrar el pago diario en la base de datos.",
+                                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        return;
                     }
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error inesperado al procesar el pago: {ex.Message}", "Error",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
@@ -515,6 +678,11 @@ namespace ClubDeportivoSystem.Forms
         }
 
         private void gbDatosPago_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FormPagos_Load(object sender, EventArgs e)
         {
 
         }
