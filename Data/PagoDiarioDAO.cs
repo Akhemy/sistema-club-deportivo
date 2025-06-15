@@ -7,23 +7,24 @@ namespace ClubDeportivoSystem.Data
     public class PagoDiarioDAO
     {
         // Registrar pago de no socio en pagos_diarios
-        public bool RegistrarPagoNoSocio(int personaId, decimal monto, string tipoCuota, string medioPago = "Efectivo", string observaciones = "")
+        public bool RegistrarPagoNoSocio(int personaId, decimal monto, string tipoCuota, string medioPago = "Efectivo", string observaciones = "", int cuotas = 1)
         {
             try
             {
                 string query = @"INSERT INTO pagos_diarios 
-                                (persona_id, monto, fecha_pago, fecha_acceso, medio_pago, estado, observaciones, created_at, updated_at) 
-                                VALUES 
-                                (@persona_id, @monto, @fecha_pago, @fecha_acceso, @medio_pago, 'pagado', @observaciones, NOW(), NOW())";
+                        (persona_id, monto, fecha_pago, fecha_acceso, medio_pago, estado, observaciones, cuotas, created_at, updated_at) 
+                        VALUES 
+                        (@persona_id, @monto, @fecha_pago, @fecha_acceso, @medio_pago, 'pagado', @observaciones, @cuotas, NOW(), NOW())";
 
                 MySqlParameter[] parameters = {
-                    new MySqlParameter("@persona_id", personaId),
-                    new MySqlParameter("@monto", monto),
-                    new MySqlParameter("@fecha_pago", DateTime.Now),
-                    new MySqlParameter("@fecha_acceso", DateTime.Now),
-                    new MySqlParameter("@medio_pago", medioPago),
-                    new MySqlParameter("@observaciones", $"Pago {tipoCuota} - {observaciones}")
-                };
+            new MySqlParameter("@persona_id", personaId),
+            new MySqlParameter("@monto", monto),
+            new MySqlParameter("@fecha_pago", DateTime.Now),
+            new MySqlParameter("@fecha_acceso", DateTime.Now),
+            new MySqlParameter("@medio_pago", medioPago),
+            new MySqlParameter("@observaciones", $"Pago {tipoCuota} - {observaciones}"),
+            new MySqlParameter("@cuotas", cuotas)
+        };
 
                 int result = DatabaseConnection.ExecuteNonQuery(query, parameters);
                 return result > 0;
@@ -33,6 +34,7 @@ namespace ClubDeportivoSystem.Data
                 throw new Exception("Error al registrar pago diario: " + ex.Message);
             }
         }
+
 
         // Actualizar actividades realizadas del no socio
         public bool ActualizarActividadesNoSocio(int personaId)

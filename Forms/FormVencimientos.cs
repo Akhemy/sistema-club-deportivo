@@ -17,7 +17,13 @@ namespace ClubDeportivoSystem.Forms
         private DataGridView dgvVencimientos;
         private Label lblTotal;
         private Button btnCerrar;
-
+        private DataGridViewTextBoxColumn NumeroSocio;
+        private DataGridViewTextBoxColumn Nombre;
+        private DataGridViewTextBoxColumn Apellido;
+        private DataGridViewTextBoxColumn DNI;
+        private DataGridViewTextBoxColumn EstadoCuota;
+        private DataGridViewTextBoxColumn FechaUltimaCuota;
+        private DataGridViewTextBoxColumn Situacion;
         private CuotaDAO cuotaDAO;
 
         public FormVencimientos()
@@ -29,118 +35,201 @@ namespace ClubDeportivoSystem.Forms
 
         private void InitializeComponent()
         {
-            // Configurar formulario
-            this.Text = "Listado de Cuotas por Vencer";
-            this.Size = new Size(900, 600);
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.BackColor = Color.LightGray;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.lblTitulo = new System.Windows.Forms.Label();
+            this.gbFiltros = new System.Windows.Forms.GroupBox();
+            this.lblFecha = new System.Windows.Forms.Label();
+            this.dtpFechaHasta = new System.Windows.Forms.DateTimePicker();
+            this.btnConsultar = new System.Windows.Forms.Button();
+            this.btnExportar = new System.Windows.Forms.Button();
+            this.dgvVencimientos = new System.Windows.Forms.DataGridView();
+            this.lblTotal = new System.Windows.Forms.Label();
+            this.btnCerrar = new System.Windows.Forms.Button();
+            this.NumeroSocio = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Apellido = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DNI = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EstadoCuota = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.FechaUltimaCuota = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Situacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.gbFiltros.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVencimientos)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // lblTitulo
+            // 
+            this.lblTitulo.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold);
+            this.lblTitulo.ForeColor = System.Drawing.Color.DarkBlue;
+            this.lblTitulo.Location = new System.Drawing.Point(274, 20);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(346, 30);
+            this.lblTitulo.TabIndex = 0;
+            this.lblTitulo.Text = "Listado de Cuotas por Vencer";
+            this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTitulo.Click += new System.EventHandler(this.lblTitulo_Click);
+            // 
+            // gbFiltros
+            // 
+            this.gbFiltros.BackColor = System.Drawing.Color.White;
+            this.gbFiltros.Controls.Add(this.lblFecha);
+            this.gbFiltros.Controls.Add(this.dtpFechaHasta);
+            this.gbFiltros.Controls.Add(this.btnConsultar);
+            this.gbFiltros.Controls.Add(this.btnExportar);
+            this.gbFiltros.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.gbFiltros.Location = new System.Drawing.Point(50, 70);
+            this.gbFiltros.Name = "gbFiltros";
+            this.gbFiltros.Size = new System.Drawing.Size(800, 80);
+            this.gbFiltros.TabIndex = 1;
+            this.gbFiltros.TabStop = false;
+            this.gbFiltros.Text = "Filtros de Consulta";
+            // 
+            // lblFecha
+            // 
+            this.lblFecha.Font = new System.Drawing.Font("Arial", 9F);
+            this.lblFecha.Location = new System.Drawing.Point(20, 30);
+            this.lblFecha.Name = "lblFecha";
+            this.lblFecha.Size = new System.Drawing.Size(150, 20);
+            this.lblFecha.TabIndex = 0;
+            this.lblFecha.Text = "Mostrar vencimientos hasta:";
+            // 
+            // dtpFechaHasta
+            // 
+            this.dtpFechaHasta.Location = new System.Drawing.Point(180, 28);
+            this.dtpFechaHasta.Name = "dtpFechaHasta";
+            this.dtpFechaHasta.Size = new System.Drawing.Size(150, 23);
+            this.dtpFechaHasta.TabIndex = 1;
+            this.dtpFechaHasta.Value = new System.DateTime(2025, 7, 14, 21, 26, 25, 101);
+            // 
+            // btnConsultar
+            // 
+            this.btnConsultar.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnConsultar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnConsultar.ForeColor = System.Drawing.Color.White;
+            this.btnConsultar.Location = new System.Drawing.Point(350, 26);
+            this.btnConsultar.Name = "btnConsultar";
+            this.btnConsultar.Size = new System.Drawing.Size(100, 30);
+            this.btnConsultar.TabIndex = 2;
+            this.btnConsultar.Text = "Consultar";
+            this.btnConsultar.UseVisualStyleBackColor = false;
+            this.btnConsultar.Click += new System.EventHandler(this.btnConsultar_Click);
+            // 
+            // btnExportar
+            // 
+            this.btnExportar.BackColor = System.Drawing.Color.Green;
+            this.btnExportar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnExportar.ForeColor = System.Drawing.Color.White;
+            this.btnExportar.Location = new System.Drawing.Point(470, 26);
+            this.btnExportar.Name = "btnExportar";
+            this.btnExportar.Size = new System.Drawing.Size(100, 30);
+            this.btnExportar.TabIndex = 3;
+            this.btnExportar.Text = "Exportar";
+            this.btnExportar.UseVisualStyleBackColor = false;
+            this.btnExportar.Click += new System.EventHandler(this.btnExportar_Click);
+            // 
+            // dgvVencimientos
+            // 
+            this.dgvVencimientos.AllowUserToAddRows = false;
+            this.dgvVencimientos.AllowUserToDeleteRows = false;
+            this.dgvVencimientos.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvVencimientos.BackgroundColor = System.Drawing.Color.White;
+            this.dgvVencimientos.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.dgvVencimientos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.NumeroSocio,
+            this.Nombre,
+            this.Apellido,
+            this.DNI,
+            this.EstadoCuota,
+            this.FechaUltimaCuota,
+            this.Situacion});
+            this.dgvVencimientos.Location = new System.Drawing.Point(50, 156);
+            this.dgvVencimientos.Name = "dgvVencimientos";
+            this.dgvVencimientos.ReadOnly = true;
+            this.dgvVencimientos.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
+            this.dgvVencimientos.Size = new System.Drawing.Size(800, 300);
+            this.dgvVencimientos.TabIndex = 2;
+            this.dgvVencimientos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVencimientos_CellContentClick);
+            // 
+            // lblTotal
+            // 
+            this.lblTotal.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.lblTotal.Location = new System.Drawing.Point(50, 480);
+            this.lblTotal.Name = "lblTotal";
+            this.lblTotal.Size = new System.Drawing.Size(200, 20);
+            this.lblTotal.TabIndex = 3;
+            this.lblTotal.Text = "Total de socios: 0";
+            // 
+            // btnCerrar
+            // 
+            this.btnCerrar.BackColor = System.Drawing.Color.Crimson;
+            this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCerrar.ForeColor = System.Drawing.Color.White;
+            this.btnCerrar.Location = new System.Drawing.Point(750, 510);
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(100, 35);
+            this.btnCerrar.TabIndex = 4;
+            this.btnCerrar.Text = "Cerrar";
+            this.btnCerrar.UseVisualStyleBackColor = false;
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
+            // 
+            // NumeroSocio
+            // 
+            this.NumeroSocio.HeaderText = "Nº Socio";
+            this.NumeroSocio.Name = "NumeroSocio";
+            this.NumeroSocio.ReadOnly = true;
+            // 
+            // Nombre
+            // 
+            this.Nombre.HeaderText = "Nombre";
+            this.Nombre.Name = "Nombre";
+            this.Nombre.ReadOnly = true;
+            // 
+            // Apellido
+            // 
+            this.Apellido.HeaderText = "Apellido";
+            this.Apellido.Name = "Apellido";
+            this.Apellido.ReadOnly = true;
+            // 
+            // DNI
+            // 
+            this.DNI.HeaderText = "DNI";
+            this.DNI.Name = "DNI";
+            this.DNI.ReadOnly = true;
+            // 
+            // EstadoCuota
+            // 
+            this.EstadoCuota.HeaderText = "Estado Cuota";
+            this.EstadoCuota.Name = "EstadoCuota";
+            this.EstadoCuota.ReadOnly = true;
+            // 
+            // FechaUltimaCuota
+            // 
+            this.FechaUltimaCuota.HeaderText = "Última Cuota";
+            this.FechaUltimaCuota.Name = "FechaUltimaCuota";
+            this.FechaUltimaCuota.ReadOnly = true;
+            // 
+            // Situacion
+            // 
+            this.Situacion.HeaderText = "Situación";
+            this.Situacion.Name = "Situacion";
+            this.Situacion.ReadOnly = true;
+            // 
+            // FormVencimientos
+            // 
+            this.BackColor = System.Drawing.Color.LightGray;
+            this.ClientSize = new System.Drawing.Size(884, 561);
+            this.Controls.Add(this.lblTitulo);
+            this.Controls.Add(this.gbFiltros);
+            this.Controls.Add(this.dgvVencimientos);
+            this.Controls.Add(this.lblTotal);
+            this.Controls.Add(this.btnCerrar);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
+            this.Name = "FormVencimientos";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Listado de Cuotas por Vencer";
+            this.gbFiltros.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dgvVencimientos)).EndInit();
+            this.ResumeLayout(false);
 
-            // Título
-            lblTitulo = new Label();
-            lblTitulo.Text = "Listado de Cuotas por Vencer";
-            lblTitulo.Font = new Font("Arial", 16, FontStyle.Bold);
-            lblTitulo.ForeColor = Color.DarkBlue;
-            lblTitulo.Location = new Point(300, 20);
-            lblTitulo.Size = new Size(300, 30);
-            lblTitulo.TextAlign = ContentAlignment.MiddleCenter;
-
-            // GroupBox Filtros
-            gbFiltros = new GroupBox();
-            gbFiltros.Text = "Filtros de Consulta";
-            gbFiltros.Location = new Point(50, 70);
-            gbFiltros.Size = new Size(800, 80);
-            gbFiltros.BackColor = Color.White;
-            gbFiltros.Font = new Font("Arial", 10, FontStyle.Bold);
-
-            lblFecha = new Label();
-            lblFecha.Text = "Mostrar vencimientos hasta:";
-            lblFecha.Location = new Point(20, 30);
-            lblFecha.Size = new Size(150, 20);
-            lblFecha.Font = new Font("Arial", 9);
-
-            dtpFechaHasta = new DateTimePicker();
-            dtpFechaHasta.Location = new Point(180, 28);
-            dtpFechaHasta.Size = new Size(150, 25);
-            dtpFechaHasta.Value = DateTime.Now.AddDays(30); // Por defecto próximos 30 días
-
-            btnConsultar = new Button();
-            btnConsultar.Text = "Consultar";
-            btnConsultar.Location = new Point(350, 26);
-            btnConsultar.Size = new Size(100, 30);
-            btnConsultar.BackColor = Color.DodgerBlue;
-            btnConsultar.ForeColor = Color.White;
-            btnConsultar.FlatStyle = FlatStyle.Flat;
-            btnConsultar.Click += new EventHandler(btnConsultar_Click);
-
-            btnExportar = new Button();
-            btnExportar.Text = "Exportar";
-            btnExportar.Location = new Point(470, 26);
-            btnExportar.Size = new Size(100, 30);
-            btnExportar.BackColor = Color.Green;
-            btnExportar.ForeColor = Color.White;
-            btnExportar.FlatStyle = FlatStyle.Flat;
-            btnExportar.Click += new EventHandler(btnExportar_Click);
-
-            gbFiltros.Controls.Add(lblFecha);
-            gbFiltros.Controls.Add(dtpFechaHasta);
-            gbFiltros.Controls.Add(btnConsultar);
-            gbFiltros.Controls.Add(btnExportar);
-
-            // DataGridView
-            dgvVencimientos = new DataGridView();
-            dgvVencimientos.Location = new Point(50, 170);
-            dgvVencimientos.Size = new Size(800, 300);
-            dgvVencimientos.BackgroundColor = Color.White;
-            dgvVencimientos.BorderStyle = BorderStyle.Fixed3D;
-            dgvVencimientos.AllowUserToAddRows = false;
-            dgvVencimientos.AllowUserToDeleteRows = false;
-            dgvVencimientos.ReadOnly = true;
-            dgvVencimientos.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvVencimientos.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-
-            // Configurar columnas
-            dgvVencimientos.Columns.Add("NumeroSocio", "Nº Socio");
-            dgvVencimientos.Columns.Add("Nombre", "Nombre");
-            dgvVencimientos.Columns.Add("Apellido", "Apellido");
-            dgvVencimientos.Columns.Add("DNI", "DNI");
-            dgvVencimientos.Columns.Add("EstadoCuota", "Estado Cuota");
-            dgvVencimientos.Columns.Add("FechaUltimaCuota", "Última Cuota");
-            dgvVencimientos.Columns.Add("Situacion", "Situación");
-
-            // Ajustar ancho de columnas
-            dgvVencimientos.Columns["NumeroSocio"].Width = 80;
-            dgvVencimientos.Columns["Nombre"].Width = 120;
-            dgvVencimientos.Columns["Apellido"].Width = 120;
-            dgvVencimientos.Columns["DNI"].Width = 100;
-            dgvVencimientos.Columns["EstadoCuota"].Width = 100;
-            dgvVencimientos.Columns["FechaUltimaCuota"].Width = 120;
-            dgvVencimientos.Columns["Situacion"].Width = 120;
-
-            // Label Total
-            lblTotal = new Label();
-            lblTotal.Text = "Total de socios: 0";
-            lblTotal.Location = new Point(50, 480);
-            lblTotal.Size = new Size(200, 20);
-            lblTotal.Font = new Font("Arial", 10, FontStyle.Bold);
-
-            // Botón Cerrar
-            btnCerrar = new Button();
-            btnCerrar.Text = "Cerrar";
-            btnCerrar.Location = new Point(750, 510);
-            btnCerrar.Size = new Size(100, 35);
-            btnCerrar.BackColor = Color.Crimson;
-            btnCerrar.ForeColor = Color.White;
-            btnCerrar.FlatStyle = FlatStyle.Flat;
-            btnCerrar.Click += new EventHandler(btnCerrar_Click);
-
-            // Agregar controles al formulario
-            this.Controls.Add(lblTitulo);
-            this.Controls.Add(gbFiltros);
-            this.Controls.Add(dgvVencimientos);
-            this.Controls.Add(lblTotal);
-            this.Controls.Add(btnCerrar);
         }
 
         private void btnConsultar_Click(object sender, EventArgs e)
@@ -264,6 +353,16 @@ namespace ClubDeportivoSystem.Forms
         private void btnCerrar_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void lblTitulo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvVencimientos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

@@ -16,8 +16,12 @@ namespace ClubDeportivoSystem.Forms
 {
     public partial class FormPagoTarjeta : Form
     {
+        public int CantidadCuotas { get; private set; }
+        public decimal MontoFinal { get; private set; }
         public bool PagoExitoso { get; private set; }
         public decimal Monto { get; }
+        public int CuotasSeleccionadas { get; private set; }
+
 
 
         //Constructor
@@ -192,9 +196,16 @@ namespace ClubDeportivoSystem.Forms
 
             // Confirmar el pago
             var (montoFinal, cuotas) = CalcularMontoFinal();
-            string mensaje = $"¿Confirmar el pago?\nTotal: {cuotas} cuota/s de ${montoFinal / cuotas:F2}";
+            MontoFinal = montoFinal;
+            CuotasSeleccionadas = cuotas;
 
-            if (MessageBox.Show(mensaje, "Confirmar Pago", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            string mensaje = $"¿Confirmar el pago?\n\n" +
+                 $"Total a pagar: ${montoFinal:F2}\n" +
+                 $"Cuotas: {cuotas}\n" +
+                 $"Valor por cuota: ${montoFinal / cuotas:F2}";
+
+
+            if (MessageBox.Show(mensaje, "Resumen de Pago con Tarjeta", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 PagoExitoso = true;
                 return true;

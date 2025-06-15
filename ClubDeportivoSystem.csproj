@@ -142,6 +142,9 @@
     <EmbeddedResource Include="Forms\FormPagoTarjeta.resx">
       <DependentUpon>FormPagoTarjeta.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormVencimientos.resx">
+      <DependentUpon>FormVencimientos.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

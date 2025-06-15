@@ -8,7 +8,7 @@ namespace ClubDeportivoSystem.Data
     public class CuotaDAO
     {
         // Registrar un nuevo pago
-        public bool RegistrarPago(int socioId, decimal monto, string tipoCuota, string medioPago = "Efectivo")
+        public bool RegistrarPago(int socioId, decimal monto, string tipoCuota, string medioPago = "Efectivo", int cuotas = 1)
         {
             try
             {
@@ -19,25 +19,19 @@ namespace ClubDeportivoSystem.Data
                     {
                         try
                         {
-                            // 1. Insertar la cuota
+
                             string queryCuota = @"INSERT INTO cuotas 
-                                                (socio_id, precio_cuota, fecha_vencimiento, fecha_pago, 
-                                                 estado_cuota, medio_pago, tipo_cuota) 
-                                                VALUES 
-                                                (@socio_id, @precio_cuota, @fecha_vencimiento, @fecha_pago, 
-                                                 'pagada', @medio_pago, @tipo_cuota)";
+                                        (socio_id, precio_cuota, fecha_vencimiento, fecha_pago, 
+                                         estado_cuota, medio_pago, tipo_cuota, cuotas) 
+                                        VALUES 
+                                        (@socio_id, @precio_cuota, @fecha_vencimiento, @fecha_pago, 
+                                         'pagada', @medio_pago, @tipo_cuota, @cuotas)";
 
                             using (MySqlCommand cmdCuota = new MySqlCommand(queryCuota, connection, transaction))
                             {
-                                DateTime fechaVencimiento;
-                                if (tipoCuota.ToLower() == "mensual")
-                                {
-                                    fechaVencimiento = DateTime.Now.AddMonths(1);
-                                }
-                                else
-                                {
-                                    fechaVencimiento = DateTime.Now.AddDays(1);
-                                }
+                                DateTime fechaVencimiento = tipoCuota.ToLower() == "mensual"
+                                                            ? DateTime.Now.AddMonths(1)
+                                                            : DateTime.Now.AddDays(1);
 
                                 cmdCuota.Parameters.AddWithValue("@socio_id", socioId);
                                 cmdCuota.Parameters.AddWithValue("@precio_cuota", monto);
@@ -45,14 +39,15 @@ namespace ClubDeportivoSystem.Data
                                 cmdCuota.Parameters.AddWithValue("@fecha_pago", DateTime.Now);
                                 cmdCuota.Parameters.AddWithValue("@medio_pago", medioPago);
                                 cmdCuota.Parameters.AddWithValue("@tipo_cuota", tipoCuota.ToLower());
+                                cmdCuota.Parameters.AddWithValue("@cuotas", cuotas);
 
                                 cmdCuota.ExecuteNonQuery();
                             }
 
-                            // 2. Actualizar estado del socio
+
                             string querySocio = @"UPDATE socios 
-                                                SET estado_cuota = 'al_dia', fecha_ultima_cuota = @fecha_pago 
-                                                WHERE id = @socio_id";
+                                        SET estado_cuota = 'al_dia', fecha_ultima_cuota = @fecha_pago 
+                                        WHERE id = @socio_id";
 
                             using (MySqlCommand cmdSocio = new MySqlCommand(querySocio, connection, transaction))
                             {
@@ -77,6 +72,7 @@ namespace ClubDeportivoSystem.Data
                 throw new Exception("Error al registrar pago: " + ex.Message);
             }
         }
+
 
         // Obtener historial de pagos de un socio
         public List<Cuota> ObtenerHistorialPagos(int socioId)

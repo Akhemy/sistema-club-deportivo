@@ -323,6 +323,13 @@ namespace ClubDeportivoSystem.Forms
                 return false;
             }
 
+            //Validar entrega de apto físico
+            if (!chkAptoFisico.Checked)
+            {
+                MessageBox.Show("Debe entregar el Apto Físico para registrarse.", "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false; // Detiene el flujo para que no continúe con el guardado
+            }
+
             return true;
         }
 

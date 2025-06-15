@@ -12,6 +12,8 @@ namespace ClubDeportivoSystem.Models
         public string EstadoCuota { get; set; }
         public string MedioPago { get; set; }
         public string TipoCuota { get; set; }
+        public int Cuotas { get; set; }
+
 
         // Propiedades de navegación
         public Socio Socio { get; set; }
