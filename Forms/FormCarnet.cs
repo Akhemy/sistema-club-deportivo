@@ -27,6 +27,7 @@ namespace ClubDeportivoSystem.Forms
             personaDAO = new PersonaDAO();
             socioDAO = new SocioDAO();
             InitializeComponent();
+            btnCerrar.Click += BtnCerrar_Click; 
         }
 
         private void InitializeComponent()
@@ -119,7 +120,6 @@ namespace ClubDeportivoSystem.Forms
             btnCerrar.ForeColor = Color.White;
             btnCerrar.FlatStyle = FlatStyle.Flat;
             btnCerrar.Font = new Font("Arial", 10, FontStyle.Bold);
-            btnCerrar.Click += (s, e) => this.Close();
 
             // Agregar controles
             this.Controls.Add(lblTitulo);
@@ -131,6 +131,10 @@ namespace ClubDeportivoSystem.Forms
             this.Controls.Add(btnCerrar);
         }
 
+        private void BtnCerrar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
         private void btnBuscar_Click(object sender, EventArgs e)
         {
             try

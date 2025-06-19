@@ -23,7 +23,7 @@ namespace ClubDeportivoSystem.Forms
         private Label lblMonto;
         private TextBox txtMonto;
         private Button btnPagar;
-        private Button btnCerrar;
+        private Button btnCancelar;
 
         private PersonaDAO personaDAO;
         private SocioDAO socioDAO;
@@ -62,7 +62,7 @@ namespace ClubDeportivoSystem.Forms
             this.lblMonto = new System.Windows.Forms.Label();
             this.txtMonto = new System.Windows.Forms.TextBox();
             this.btnPagar = new System.Windows.Forms.Button();
-            this.btnCerrar = new System.Windows.Forms.Button();
+            this.btnCancelar = new System.Windows.Forms.Button();
             this.gbDatosPago.SuspendLayout();
             this.gbTipoPago.SuspendLayout();
             this.SuspendLayout();
@@ -95,7 +95,7 @@ namespace ClubDeportivoSystem.Forms
             this.gbDatosPago.Controls.Add(this.lblMonto);
             this.gbDatosPago.Controls.Add(this.txtMonto);
             this.gbDatosPago.Controls.Add(this.btnPagar);
-            this.gbDatosPago.Controls.Add(this.btnCerrar);
+            this.gbDatosPago.Controls.Add(this.btnCancelar);
             this.gbDatosPago.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
             this.gbDatosPago.Location = new System.Drawing.Point(50, 70);
             this.gbDatosPago.Name = "gbDatosPago";
@@ -276,19 +276,19 @@ namespace ClubDeportivoSystem.Forms
             this.btnPagar.UseVisualStyleBackColor = false;
             this.btnPagar.Click += new System.EventHandler(this.btnPagar_Click);
             // 
-            // btnCerrar
+            // btnCancelar
             // 
-            this.btnCerrar.BackColor = System.Drawing.Color.Crimson;
-            this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCerrar.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.btnCerrar.ForeColor = System.Drawing.Color.White;
-            this.btnCerrar.Location = new System.Drawing.Point(352, 334);
-            this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(100, 35);
-            this.btnCerrar.TabIndex = 13;
-            this.btnCerrar.Text = "Cerrar";
-            this.btnCerrar.UseVisualStyleBackColor = false;
-            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
+            this.btnCancelar.BackColor = System.Drawing.Color.Crimson;
+            this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelar.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.btnCancelar.ForeColor = System.Drawing.Color.White;
+            this.btnCancelar.Location = new System.Drawing.Point(352, 334);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(100, 35);
+            this.btnCancelar.TabIndex = 13;
+            this.btnCancelar.Text = "Cancelar";
+            this.btnCancelar.UseVisualStyleBackColor = false;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCerrar_Click);
             // 
             // FormPagos
             // 
