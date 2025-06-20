@@ -151,7 +151,7 @@ namespace ClubDeportivoSystem.Forms
             this.lblSocio.Name = "lblSocio";
             this.lblSocio.Size = new System.Drawing.Size(180, 20);
             this.lblSocio.TabIndex = 0;
-            this.lblSocio.Text = "Buscar Socio (DNI o Nombre):";
+            this.lblSocio.Text = "Buscar Socio (DNI):";
             this.lblSocio.Click += new System.EventHandler(this.lblSocio_Click);
             // 
             // txtBuscarSocio
