@@ -136,11 +136,17 @@
     <Compile Include="Models\Socio.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Forms\FormCarnet.resx">
+      <DependentUpon>FormCarnet.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormPagos.resx">
       <DependentUpon>FormPagos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormPagoTarjeta.resx">
       <DependentUpon>FormPagoTarjeta.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\FormRegistro.resx">
+      <DependentUpon>FormRegistro.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormVencimientos.resx">
       <DependentUpon>FormVencimientos.cs</DependentUpon>

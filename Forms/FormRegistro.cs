@@ -31,141 +31,206 @@ namespace ClubDeportivoSystem.Forms
 
         private void InitializeComponent()
         {
-            // Configurar formulario
-            this.Text = "Registro de Socios/No Socios";
-            this.Size = new Size(500, 450);
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.lblTitulo = new System.Windows.Forms.Label();
+            this.gbDatos = new System.Windows.Forms.GroupBox();
+            this.lblNombre = new System.Windows.Forms.Label();
+            this.txtNombre = new System.Windows.Forms.TextBox();
+            this.lblApellido = new System.Windows.Forms.Label();
+            this.txtApellido = new System.Windows.Forms.TextBox();
+            this.lblDNI = new System.Windows.Forms.Label();
+            this.txtDNI = new System.Windows.Forms.TextBox();
+            this.lblTipo = new System.Windows.Forms.Label();
+            this.rbSocio = new System.Windows.Forms.RadioButton();
+            this.rbNoSocio = new System.Windows.Forms.RadioButton();
+            this.chkAptoFisico = new System.Windows.Forms.CheckBox();
+            this.btnGuardar = new System.Windows.Forms.Button();
+            this.btnCancelar = new System.Windows.Forms.Button();
+            this.gbDatos.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // lblTitulo
+            // 
+            this.lblTitulo.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold);
+            this.lblTitulo.ForeColor = System.Drawing.Color.DarkBlue;
+            this.lblTitulo.Location = new System.Drawing.Point(100, 20);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(300, 30);
+            this.lblTitulo.TabIndex = 0;
+            this.lblTitulo.Text = "Registro de Socios/No Socios";
+            this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTitulo.Click += new System.EventHandler(this.lblTitulo_Click);
+            // 
+            // gbDatos
+            // 
+            this.gbDatos.BackColor = System.Drawing.Color.White;
+            this.gbDatos.Controls.Add(this.lblNombre);
+            this.gbDatos.Controls.Add(this.txtNombre);
+            this.gbDatos.Controls.Add(this.lblApellido);
+            this.gbDatos.Controls.Add(this.txtApellido);
+            this.gbDatos.Controls.Add(this.lblDNI);
+            this.gbDatos.Controls.Add(this.txtDNI);
+            this.gbDatos.Controls.Add(this.lblTipo);
+            this.gbDatos.Controls.Add(this.rbSocio);
+            this.gbDatos.Controls.Add(this.rbNoSocio);
+            this.gbDatos.Controls.Add(this.chkAptoFisico);
+            this.gbDatos.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.gbDatos.Location = new System.Drawing.Point(50, 70);
+            this.gbDatos.Name = "gbDatos";
+            this.gbDatos.Size = new System.Drawing.Size(400, 270);
+            this.gbDatos.TabIndex = 1;
+            this.gbDatos.TabStop = false;
+            this.gbDatos.Text = "Datos Personales";
+            // 
+            // lblNombre
+            // 
+            this.lblNombre.Font = new System.Drawing.Font("Arial", 9F);
+            this.lblNombre.Location = new System.Drawing.Point(20, 30);
+            this.lblNombre.Name = "lblNombre";
+            this.lblNombre.Size = new System.Drawing.Size(100, 20);
+            this.lblNombre.TabIndex = 0;
+            this.lblNombre.Text = "Nombre:";
+            this.lblNombre.Click += new System.EventHandler(this.lblNombre_Click);
+            // 
+            // txtNombre
+            // 
+            this.txtNombre.KeyPress += new KeyPressEventHandler(this.txtNombre_KeyPress);
+            this.txtApellido.KeyPress += new KeyPressEventHandler(this.txtApellido_KeyPress);
+            this.txtNombre.Font = new System.Drawing.Font("Arial", 9F);
+            this.txtNombre.Location = new System.Drawing.Point(130, 28);
+            this.txtNombre.Name = "txtNombre";
+            this.txtNombre.Size = new System.Drawing.Size(250, 21);
+            this.txtNombre.TabIndex = 1;
+            this.txtNombre.TextChanged += new System.EventHandler(this.txtNombre_TextChanged);
+            // 
+            // lblApellido
+            // 
+            this.lblApellido.Font = new System.Drawing.Font("Arial", 9F);
+            this.lblApellido.Location = new System.Drawing.Point(20, 70);
+            this.lblApellido.Name = "lblApellido";
+            this.lblApellido.Size = new System.Drawing.Size(100, 20);
+            this.lblApellido.TabIndex = 2;
+            this.lblApellido.Text = "Apellido:";
+            this.lblApellido.Click += new System.EventHandler(this.lblApellido_Click);
+            // 
+            // txtApellido
+            // 
+            this.txtApellido.Font = new System.Drawing.Font("Arial", 9F);
+            this.txtApellido.Location = new System.Drawing.Point(130, 68);
+            this.txtApellido.Name = "txtApellido";
+            this.txtApellido.Size = new System.Drawing.Size(250, 21);
+            this.txtApellido.TabIndex = 3;
+            this.txtApellido.TextChanged += new System.EventHandler(this.txtApellido_TextChanged);
+            // 
+            // lblDNI
+            // 
+            this.lblDNI.Font = new System.Drawing.Font("Arial", 9F);
+            this.lblDNI.Location = new System.Drawing.Point(20, 110);
+            this.lblDNI.Name = "lblDNI";
+            this.lblDNI.Size = new System.Drawing.Size(100, 20);
+            this.lblDNI.TabIndex = 4;
+            this.lblDNI.Text = "DNI:";
+            this.lblDNI.Click += new System.EventHandler(this.lblDNI_Click);
+            // 
+            // txtDNI
+            // 
+            this.txtDNI.Font = new System.Drawing.Font("Arial", 9F);
+            this.txtDNI.Location = new System.Drawing.Point(130, 108);
+            this.txtDNI.Name = "txtDNI";
+            this.txtDNI.Size = new System.Drawing.Size(250, 21);
+            this.txtDNI.TabIndex = 5;
+            this.txtDNI.TextChanged += new System.EventHandler(this.txtDNI_TextChanged);
+            this.txtDNI.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtDNI_KeyPress);
+            // 
+            // lblTipo
+            // 
+            this.lblTipo.Font = new System.Drawing.Font("Arial", 9F);
+            this.lblTipo.Location = new System.Drawing.Point(20, 150);
+            this.lblTipo.Name = "lblTipo";
+            this.lblTipo.Size = new System.Drawing.Size(100, 20);
+            this.lblTipo.TabIndex = 6;
+            this.lblTipo.Text = "Tipo:";
+            this.lblTipo.Click += new System.EventHandler(this.lblTipo_Click);
+            // 
+            // rbSocio
+            // 
+            this.rbSocio.Checked = true;
+            this.rbSocio.Font = new System.Drawing.Font("Arial", 9F);
+            this.rbSocio.Location = new System.Drawing.Point(130, 148);
+            this.rbSocio.Name = "rbSocio";
+            this.rbSocio.Size = new System.Drawing.Size(80, 25);
+            this.rbSocio.TabIndex = 7;
+            this.rbSocio.TabStop = true;
+            this.rbSocio.Text = "Socio";
+            this.rbSocio.CheckedChanged += new System.EventHandler(this.rbSocio_CheckedChanged);
+            // 
+            // rbNoSocio
+            // 
+            this.rbNoSocio.Font = new System.Drawing.Font("Arial", 9F);
+            this.rbNoSocio.Location = new System.Drawing.Point(230, 148);
+            this.rbNoSocio.Name = "rbNoSocio";
+            this.rbNoSocio.Size = new System.Drawing.Size(100, 25);
+            this.rbNoSocio.TabIndex = 8;
+            this.rbNoSocio.Text = "No Socio";
+            this.rbNoSocio.CheckedChanged += new System.EventHandler(this.rbNoSocio_CheckedChanged);
+            // 
+            // chkAptoFisico
+            // 
+            this.chkAptoFisico.BackColor = System.Drawing.Color.Transparent;
+            this.chkAptoFisico.Font = new System.Drawing.Font("Arial", 9F);
+            this.chkAptoFisico.Location = new System.Drawing.Point(130, 190);
+            this.chkAptoFisico.Name = "chkAptoFisico";
+            this.chkAptoFisico.Size = new System.Drawing.Size(200, 25);
+            this.chkAptoFisico.TabIndex = 9;
+            this.chkAptoFisico.Text = "Entregó Apto Físico";
+            this.chkAptoFisico.UseVisualStyleBackColor = false;
+            this.chkAptoFisico.CheckedChanged += new System.EventHandler(this.chkAptoFisico_CheckedChanged);
+            // 
+            // btnGuardar
+            // 
+            this.btnGuardar.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnGuardar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnGuardar.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.btnGuardar.ForeColor = System.Drawing.Color.White;
+            this.btnGuardar.Location = new System.Drawing.Point(50, 360);
+            this.btnGuardar.Name = "btnGuardar";
+            this.btnGuardar.Size = new System.Drawing.Size(100, 35);
+            this.btnGuardar.TabIndex = 2;
+            this.btnGuardar.Text = "Guardar";
+            this.btnGuardar.UseVisualStyleBackColor = false;
+            this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
+            // 
+            // btnCancelar
+            // 
+            this.btnCancelar.BackColor = System.Drawing.Color.Crimson;
+            this.btnCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelar.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.btnCancelar.ForeColor = System.Drawing.Color.White;
+            this.btnCancelar.Location = new System.Drawing.Point(350, 360);
+            this.btnCancelar.Name = "btnCancelar";
+            this.btnCancelar.Size = new System.Drawing.Size(100, 35);
+            this.btnCancelar.TabIndex = 3;
+            this.btnCancelar.Text = "Cancelar";
+            this.btnCancelar.UseVisualStyleBackColor = false;
+            this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
+            // 
+            // FormRegistro
+            // 
+            this.BackColor = System.Drawing.Color.LightGray;
+            this.ClientSize = new System.Drawing.Size(484, 411);
+            this.Controls.Add(this.lblTitulo);
+            this.Controls.Add(this.gbDatos);
+            this.Controls.Add(this.btnGuardar);
+            this.Controls.Add(this.btnCancelar);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
-            this.BackColor = Color.LightGray;
+            this.Name = "FormRegistro";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Registro de Socios/No Socios";
+            this.Load += new System.EventHandler(this.FormRegistro_Load);
+            this.gbDatos.ResumeLayout(false);
+            this.gbDatos.PerformLayout();
+            this.ResumeLayout(false);
 
-            // Título
-            lblTitulo = new Label();
-            lblTitulo.Text = "Registro de Socios/No Socios";
-            lblTitulo.Font = new Font("Arial", 16, FontStyle.Bold);
-            lblTitulo.ForeColor = Color.DarkBlue;
-            lblTitulo.Location = new Point(100, 20);
-            lblTitulo.Size = new Size(300, 30);
-            lblTitulo.TextAlign = ContentAlignment.MiddleCenter;
-
-            // GroupBox Datos Personales
-            gbDatos = new GroupBox();
-            gbDatos.Text = "Datos Personales";
-            gbDatos.Location = new Point(50, 70);
-            gbDatos.Size = new Size(400, 270);
-            gbDatos.BackColor = Color.White;
-            gbDatos.Font = new Font("Arial", 10, FontStyle.Bold);
-
-            // Label Nombre
-            lblNombre = new Label();
-            lblNombre.Text = "Nombre:";
-            lblNombre.Location = new Point(20, 30);
-            lblNombre.Size = new Size(100, 20);
-            lblNombre.Font = new Font("Arial", 9);
-
-            // TextBox Nombre
-            txtNombre = new TextBox();
-            txtNombre.Location = new Point(130, 28);
-            txtNombre.Size = new Size(250, 25);
-            txtNombre.Font = new Font("Arial", 9);
-
-            // Label Apellido
-            lblApellido = new Label();
-            lblApellido.Text = "Apellido:";
-            lblApellido.Location = new Point(20, 70);
-            lblApellido.Size = new Size(100, 20);
-            lblApellido.Font = new Font("Arial", 9);
-
-            // TextBox Apellido
-            txtApellido = new TextBox();
-            txtApellido.Location = new Point(130, 68);
-            txtApellido.Size = new Size(250, 25);
-            txtApellido.Font = new Font("Arial", 9);
-
-            // Label DNI
-            lblDNI = new Label();
-            lblDNI.Text = "DNI:";
-            lblDNI.Location = new Point(20, 110);
-            lblDNI.Size = new Size(100, 20);
-            lblDNI.Font = new Font("Arial", 9);
-
-            // TextBox DNI
-            txtDNI = new TextBox();
-            txtDNI.Location = new Point(130, 108);
-            txtDNI.Size = new Size(250, 25);
-            txtDNI.Font = new Font("Arial", 9);
-            txtDNI.KeyPress += new KeyPressEventHandler(txtDNI_KeyPress);
-
-            // Label Tipo
-            lblTipo = new Label();
-            lblTipo.Text = "Tipo:";
-            lblTipo.Location = new Point(20, 150);
-            lblTipo.Size = new Size(100, 20);
-            lblTipo.Font = new Font("Arial", 9);
-
-            // RadioButton Socio
-            rbSocio = new RadioButton();
-            rbSocio.Text = "Socio";
-            rbSocio.Location = new Point(130, 148);
-            rbSocio.Size = new Size(80, 25);
-            rbSocio.Font = new Font("Arial", 9);
-            rbSocio.Checked = true; // Seleccionado por defecto
-
-            // RadioButton No Socio
-            rbNoSocio = new RadioButton();
-            rbNoSocio.Text = "No Socio";
-            rbNoSocio.Location = new Point(230, 148);
-            rbNoSocio.Size = new Size(100, 25);
-            rbNoSocio.Font = new Font("Arial", 9);
-
-            //CheckBox Apto FísicoMore actions
-            chkAptoFisico = new CheckBox();
-            chkAptoFisico.Text = "Entregó Apto Físico";
-            chkAptoFisico.Location = new Point(130, 190);
-            chkAptoFisico.Size = new Size(200, 25);
-            chkAptoFisico.Font = new Font("Arial", 9);
-            chkAptoFisico.BackColor = Color.Transparent;
-            chkAptoFisico.CheckedChanged += new EventHandler(chkAptoFisico_CheckedChanged);
-
-            // Botón Guardar
-            btnGuardar = new Button();
-            btnGuardar.Text = "Guardar";
-            btnGuardar.Location = new Point(50, 360);
-            btnGuardar.Size = new Size(100, 35);
-            btnGuardar.BackColor = Color.DodgerBlue;
-            btnGuardar.ForeColor = Color.White;
-            btnGuardar.FlatStyle = FlatStyle.Flat;
-            btnGuardar.Font = new Font("Arial", 10, FontStyle.Bold);
-            btnGuardar.Click += new EventHandler(btnGuardar_Click);
-
-            // Botón Cancelar
-            btnCancelar = new Button();
-            btnCancelar.Text = "Cancelar";
-            btnCancelar.Location = new Point(350, 360);
-            btnCancelar.Size = new Size(100, 35);
-            btnCancelar.BackColor = Color.Crimson;
-            btnCancelar.ForeColor = Color.White;
-            btnCancelar.FlatStyle = FlatStyle.Flat;
-            btnCancelar.Font = new Font("Arial", 10, FontStyle.Bold);
-            btnCancelar.Click += new EventHandler(btnCancelar_Click);
-
-            // Agregar controles al GroupBox
-            gbDatos.Controls.Add(lblNombre);
-            gbDatos.Controls.Add(txtNombre);
-            gbDatos.Controls.Add(lblApellido);
-            gbDatos.Controls.Add(txtApellido);
-            gbDatos.Controls.Add(lblDNI);
-            gbDatos.Controls.Add(txtDNI);
-            gbDatos.Controls.Add(lblTipo);
-            gbDatos.Controls.Add(rbSocio);
-            gbDatos.Controls.Add(rbNoSocio);
-            gbDatos.Controls.Add(chkAptoFisico);
-
-            // Agregar controles al formulario
-            this.Controls.Add(lblTitulo);
-            this.Controls.Add(gbDatos);
-            this.Controls.Add(btnGuardar);
-            this.Controls.Add(btnCancelar);
         }
 
 
@@ -387,6 +452,80 @@ namespace ClubDeportivoSystem.Forms
             }
 
             return false;
+        }
+
+        private void txtNombre_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar))
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo se permiten letras en el campo Nombre.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void txtApellido_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar))
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo se permiten letras en el campo Apellido.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+
+        private void txtNombre_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtApellido_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtDNI_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rbSocio_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void rbNoSocio_CheckedChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblNombre_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblApellido_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblDNI_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTipo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTitulo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void FormRegistro_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

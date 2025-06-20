@@ -27,108 +27,157 @@ namespace ClubDeportivoSystem.Forms
             personaDAO = new PersonaDAO();
             socioDAO = new SocioDAO();
             InitializeComponent();
-            btnCerrar.Click += BtnCerrar_Click; 
+            btnCerrar.Click += BtnCerrar_Click;
+            txtBuscarSocio.MaxLength = 8;
+
         }
 
         private void InitializeComponent()
         {
-            this.Text = "Club Deportivo - Generar Carnet";
-            this.Size = new Size(700, 550);
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.BackColor = Color.LightGray;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.lblTitulo = new System.Windows.Forms.Label();
+            this.lblBuscar = new System.Windows.Forms.Label();
+            this.txtBuscarSocio = new System.Windows.Forms.TextBox();
+            this.btnBuscar = new System.Windows.Forms.Button();
+            this.pnlCarnet = new System.Windows.Forms.Panel();
+            this.lblCarnetTitulo = new System.Windows.Forms.Label();
+            this.lblDatos = new System.Windows.Forms.Label();
+            this.btnImprimir = new System.Windows.Forms.Button();
+            this.btnCerrar = new System.Windows.Forms.Button();
+            this.pnlCarnet.SuspendLayout();
+            this.SuspendLayout();
+            this.txtBuscarSocio.KeyPress += new KeyPressEventHandler(this.txtBuscarSocio_KeyPress);
+
+            // 
+            // lblTitulo
+            // 
+            this.lblTitulo.Font = new System.Drawing.Font("Arial", 18F, System.Drawing.FontStyle.Bold);
+            this.lblTitulo.ForeColor = System.Drawing.Color.DarkBlue;
+            this.lblTitulo.Location = new System.Drawing.Point(200, 20);
+            this.lblTitulo.Name = "lblTitulo";
+            this.lblTitulo.Size = new System.Drawing.Size(300, 30);
+            this.lblTitulo.TabIndex = 0;
+            this.lblTitulo.Text = "Generar Carnet de Socio";
+            this.lblTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblTitulo.Click += new System.EventHandler(this.lblTitulo_Click);
+            // 
+            // lblBuscar
+            // 
+            this.lblBuscar.Font = new System.Drawing.Font("Arial", 10F);
+            this.lblBuscar.Location = new System.Drawing.Point(50, 80);
+            this.lblBuscar.Name = "lblBuscar";
+            this.lblBuscar.Size = new System.Drawing.Size(120, 20);
+            this.lblBuscar.TabIndex = 1;
+            this.lblBuscar.Text = "Buscar socio (DNI):";
+            // 
+            // txtBuscarSocio
+            // 
+            this.txtBuscarSocio.Font = new System.Drawing.Font("Arial", 10F);
+            this.txtBuscarSocio.Location = new System.Drawing.Point(180, 78);
+            this.txtBuscarSocio.Name = "txtBuscarSocio";
+            this.txtBuscarSocio.Size = new System.Drawing.Size(200, 23);
+            this.txtBuscarSocio.TabIndex = 2;
+            this.txtBuscarSocio.TextChanged += new System.EventHandler(this.txtBuscarSocio_TextChanged);
+            // 
+            // btnBuscar
+            // 
+            this.btnBuscar.BackColor = System.Drawing.Color.DodgerBlue;
+            this.btnBuscar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnBuscar.Font = new System.Drawing.Font("Arial", 9F, System.Drawing.FontStyle.Bold);
+            this.btnBuscar.ForeColor = System.Drawing.Color.White;
+            this.btnBuscar.Location = new System.Drawing.Point(400, 76);
+            this.btnBuscar.Name = "btnBuscar";
+            this.btnBuscar.Size = new System.Drawing.Size(80, 30);
+            this.btnBuscar.TabIndex = 3;
+            this.btnBuscar.Text = "Buscar";
+            this.btnBuscar.UseVisualStyleBackColor = false;
+            this.btnBuscar.Click += new System.EventHandler(this.btnBuscar_Click);
+            // 
+            // pnlCarnet
+            // 
+            this.pnlCarnet.BackColor = System.Drawing.Color.White;
+            this.pnlCarnet.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlCarnet.Controls.Add(this.lblCarnetTitulo);
+            this.pnlCarnet.Controls.Add(this.lblDatos);
+            this.pnlCarnet.Location = new System.Drawing.Point(50, 130);
+            this.pnlCarnet.Name = "pnlCarnet";
+            this.pnlCarnet.Size = new System.Drawing.Size(600, 280);
+            this.pnlCarnet.TabIndex = 4;
+            this.pnlCarnet.Paint += new System.Windows.Forms.PaintEventHandler(this.pnlCarnet_Paint);
+            // 
+            // lblCarnetTitulo
+            // 
+            this.lblCarnetTitulo.BackColor = System.Drawing.Color.DodgerBlue;
+            this.lblCarnetTitulo.Font = new System.Drawing.Font("Arial", 16F, System.Drawing.FontStyle.Bold);
+            this.lblCarnetTitulo.ForeColor = System.Drawing.Color.White;
+            this.lblCarnetTitulo.Location = new System.Drawing.Point(0, 0);
+            this.lblCarnetTitulo.Name = "lblCarnetTitulo";
+            this.lblCarnetTitulo.Size = new System.Drawing.Size(600, 40);
+            this.lblCarnetTitulo.TabIndex = 0;
+            this.lblCarnetTitulo.Text = "CARNET DE SOCIO";
+            this.lblCarnetTitulo.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblCarnetTitulo.Click += new System.EventHandler(this.lblCarnetTitulo_Click);
+            // 
+            // lblDatos
+            // 
+            this.lblDatos.Font = new System.Drawing.Font("Arial", 12F);
+            this.lblDatos.ForeColor = System.Drawing.Color.Gray;
+            this.lblDatos.Location = new System.Drawing.Point(30, 80);
+            this.lblDatos.Name = "lblDatos";
+            this.lblDatos.Size = new System.Drawing.Size(540, 170);
+            this.lblDatos.TabIndex = 1;
+            this.lblDatos.Text = "Ingrese un DNI y presione \'Buscar\' para generar el carnet...";
+            this.lblDatos.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.lblDatos.Click += new System.EventHandler(this.lblDatos_Click);
+            // 
+            // btnImprimir
+            // 
+            this.btnImprimir.BackColor = System.Drawing.Color.Green;
+            this.btnImprimir.Enabled = false;
+            this.btnImprimir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnImprimir.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.btnImprimir.ForeColor = System.Drawing.Color.White;
+            this.btnImprimir.Location = new System.Drawing.Point(250, 430);
+            this.btnImprimir.Name = "btnImprimir";
+            this.btnImprimir.Size = new System.Drawing.Size(100, 35);
+            this.btnImprimir.TabIndex = 5;
+            this.btnImprimir.Text = "Imprimir";
+            this.btnImprimir.UseVisualStyleBackColor = false;
+            this.btnImprimir.Click += new System.EventHandler(this.btnImprimir_Click);
+            // 
+            // btnCerrar
+            // 
+            this.btnCerrar.BackColor = System.Drawing.Color.Crimson;
+            this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCerrar.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.btnCerrar.ForeColor = System.Drawing.Color.White;
+            this.btnCerrar.Location = new System.Drawing.Point(370, 430);
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(100, 35);
+            this.btnCerrar.TabIndex = 6;
+            this.btnCerrar.Text = "Cerrar";
+            this.btnCerrar.UseVisualStyleBackColor = false;
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click_1);
+            // 
+            // FormCarnet
+            // 
+            this.BackColor = System.Drawing.Color.LightGray;
+            this.ClientSize = new System.Drawing.Size(684, 511);
+            this.Controls.Add(this.lblTitulo);
+            this.Controls.Add(this.lblBuscar);
+            this.Controls.Add(this.txtBuscarSocio);
+            this.Controls.Add(this.btnBuscar);
+            this.Controls.Add(this.pnlCarnet);
+            this.Controls.Add(this.btnImprimir);
+            this.Controls.Add(this.btnCerrar);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
+            this.Name = "FormCarnet";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Club Deportivo - Generar Carnet";
+            this.pnlCarnet.ResumeLayout(false);
+            this.ResumeLayout(false);
+            this.PerformLayout();
 
-            // Título principal
-            lblTitulo = new Label();
-            lblTitulo.Text = "Generar Carnet de Socio";
-            lblTitulo.Font = new Font("Arial", 18, FontStyle.Bold);
-            lblTitulo.ForeColor = Color.DarkBlue;
-            lblTitulo.Location = new Point(200, 20);
-            lblTitulo.Size = new Size(300, 30);
-            lblTitulo.TextAlign = ContentAlignment.MiddleCenter;
-
-            // Buscar socio
-            lblBuscar = new Label();
-            lblBuscar.Text = "Buscar socio (DNI):";
-            lblBuscar.Font = new Font("Arial", 10);
-            lblBuscar.Location = new Point(50, 80);
-            lblBuscar.Size = new Size(120, 20);
-
-            txtBuscarSocio = new TextBox();
-            txtBuscarSocio.Location = new Point(180, 78);
-            txtBuscarSocio.Size = new Size(200, 25);
-            txtBuscarSocio.Font = new Font("Arial", 10);
-
-            btnBuscar = new Button();
-            btnBuscar.Text = "Buscar";
-            btnBuscar.Location = new Point(400, 76);
-            btnBuscar.Size = new Size(80, 30);
-            btnBuscar.BackColor = Color.DodgerBlue;
-            btnBuscar.ForeColor = Color.White;
-            btnBuscar.FlatStyle = FlatStyle.Flat;
-            btnBuscar.Font = new Font("Arial", 9, FontStyle.Bold);
-            btnBuscar.Click += new EventHandler(btnBuscar_Click);
-
-            // Panel del carnet (como tarjeta)
-            pnlCarnet = new Panel();
-            pnlCarnet.Location = new Point(50, 130);
-            pnlCarnet.Size = new Size(600, 280);
-            pnlCarnet.BackColor = Color.White;
-            pnlCarnet.BorderStyle = BorderStyle.FixedSingle;
-
-            // Título del carnet
-            lblCarnetTitulo = new Label();
-            lblCarnetTitulo.Text = "CARNET DE SOCIO";
-            lblCarnetTitulo.Font = new Font("Arial", 16, FontStyle.Bold);
-            lblCarnetTitulo.ForeColor = Color.White;
-            lblCarnetTitulo.BackColor = Color.DodgerBlue;
-            lblCarnetTitulo.Location = new Point(0, 0);
-            lblCarnetTitulo.Size = new Size(600, 40);
-            lblCarnetTitulo.TextAlign = ContentAlignment.MiddleCenter;
-
-            // Área de datos
-            lblDatos = new Label();
-            lblDatos.Text = "Ingrese un DNI y presione 'Buscar' para generar el carnet...";
-            lblDatos.Font = new Font("Arial", 12);
-            lblDatos.ForeColor = Color.Gray;
-            lblDatos.Location = new Point(30, 80);
-            lblDatos.Size = new Size(540, 170);
-            lblDatos.TextAlign = ContentAlignment.MiddleLeft;
-
-            pnlCarnet.Controls.Add(lblCarnetTitulo);
-            pnlCarnet.Controls.Add(lblDatos);
-
-            // Botón Imprimir
-            btnImprimir = new Button();
-            btnImprimir.Text = "Imprimir";
-            btnImprimir.Location = new Point(250, 430);
-            btnImprimir.Size = new Size(100, 35);
-            btnImprimir.BackColor = Color.Green;
-            btnImprimir.ForeColor = Color.White;
-            btnImprimir.FlatStyle = FlatStyle.Flat;
-            btnImprimir.Font = new Font("Arial", 10, FontStyle.Bold);
-            btnImprimir.Enabled = false;
-            btnImprimir.Click += new EventHandler(btnImprimir_Click);
-
-            // Botón Cerrar
-            btnCerrar = new Button();
-            btnCerrar.Text = "Cerrar";
-            btnCerrar.Location = new Point(370, 430);
-            btnCerrar.Size = new Size(100, 35);
-            btnCerrar.BackColor = Color.Crimson;
-            btnCerrar.ForeColor = Color.White;
-            btnCerrar.FlatStyle = FlatStyle.Flat;
-            btnCerrar.Font = new Font("Arial", 10, FontStyle.Bold);
-
-            // Agregar controles
-            this.Controls.Add(lblTitulo);
-            this.Controls.Add(lblBuscar);
-            this.Controls.Add(txtBuscarSocio);
-            this.Controls.Add(btnBuscar);
-            this.Controls.Add(pnlCarnet);
-            this.Controls.Add(btnImprimir);
-            this.Controls.Add(btnCerrar);
         }
 
         private void BtnCerrar_Click(object sender, EventArgs e)
@@ -145,6 +194,13 @@ namespace ClubDeportivoSystem.Forms
                 {
                     MessageBox.Show("Ingrese un DNI para buscar.", "Validación",
                                   MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (dni.Length != 8)
+                {
+                    MessageBox.Show("El DNI debe tener exactamente 8 números.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtBuscarSocio.Focus();
                     return;
                 }
 
@@ -211,6 +267,45 @@ namespace ClubDeportivoSystem.Forms
                           "- Impresión en proceso\n\n" +
                           "¡Carnet impreso exitosamente!", "Imprimir Carnet",
                           MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void txtBuscarSocio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+                MessageBox.Show("Solo se permiten números para el DNI.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        private void txtBuscarSocio_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblTitulo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblCarnetTitulo_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblDatos_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pnlCarnet_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnCerrar_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }
