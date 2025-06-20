@@ -42,8 +42,6 @@ namespace ClubDeportivoSystem.Forms
             this.btnConsultar = new System.Windows.Forms.Button();
             this.btnExportar = new System.Windows.Forms.Button();
             this.dgvVencimientos = new System.Windows.Forms.DataGridView();
-            this.lblTotal = new System.Windows.Forms.Label();
-            this.btnCerrar = new System.Windows.Forms.Button();
             this.NumeroSocio = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Apellido = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,6 +49,8 @@ namespace ClubDeportivoSystem.Forms
             this.EstadoCuota = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.FechaUltimaCuota = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Situacion = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.lblTotal = new System.Windows.Forms.Label();
+            this.btnCerrar = new System.Windows.Forms.Button();
             this.gbFiltros.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvVencimientos)).BeginInit();
             this.SuspendLayout();
@@ -148,28 +148,6 @@ namespace ClubDeportivoSystem.Forms
             this.dgvVencimientos.TabIndex = 2;
             this.dgvVencimientos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVencimientos_CellContentClick);
             // 
-            // lblTotal
-            // 
-            this.lblTotal.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
-            this.lblTotal.Location = new System.Drawing.Point(50, 480);
-            this.lblTotal.Name = "lblTotal";
-            this.lblTotal.Size = new System.Drawing.Size(200, 20);
-            this.lblTotal.TabIndex = 3;
-            this.lblTotal.Text = "Total de socios: 0";
-            // 
-            // btnCerrar
-            // 
-            this.btnCerrar.BackColor = System.Drawing.Color.Crimson;
-            this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnCerrar.ForeColor = System.Drawing.Color.White;
-            this.btnCerrar.Location = new System.Drawing.Point(750, 510);
-            this.btnCerrar.Name = "btnCerrar";
-            this.btnCerrar.Size = new System.Drawing.Size(100, 35);
-            this.btnCerrar.TabIndex = 4;
-            this.btnCerrar.Text = "Cerrar";
-            this.btnCerrar.UseVisualStyleBackColor = false;
-            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
-            // 
             // NumeroSocio
             // 
             this.NumeroSocio.HeaderText = "Nº Socio";
@@ -212,6 +190,28 @@ namespace ClubDeportivoSystem.Forms
             this.Situacion.Name = "Situacion";
             this.Situacion.ReadOnly = true;
             // 
+            // lblTotal
+            // 
+            this.lblTotal.Font = new System.Drawing.Font("Arial", 10F, System.Drawing.FontStyle.Bold);
+            this.lblTotal.Location = new System.Drawing.Point(50, 480);
+            this.lblTotal.Name = "lblTotal";
+            this.lblTotal.Size = new System.Drawing.Size(200, 20);
+            this.lblTotal.TabIndex = 3;
+            this.lblTotal.Text = "Total de socios: 0";
+            // 
+            // btnCerrar
+            // 
+            this.btnCerrar.BackColor = System.Drawing.Color.Crimson;
+            this.btnCerrar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCerrar.ForeColor = System.Drawing.Color.White;
+            this.btnCerrar.Location = new System.Drawing.Point(750, 510);
+            this.btnCerrar.Name = "btnCerrar";
+            this.btnCerrar.Size = new System.Drawing.Size(100, 35);
+            this.btnCerrar.TabIndex = 4;
+            this.btnCerrar.Text = "Cerrar";
+            this.btnCerrar.UseVisualStyleBackColor = false;
+            this.btnCerrar.Click += new System.EventHandler(this.btnCerrar_Click);
+            // 
             // FormVencimientos
             // 
             this.BackColor = System.Drawing.Color.LightGray;
@@ -226,6 +226,7 @@ namespace ClubDeportivoSystem.Forms
             this.Name = "FormVencimientos";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Listado de Cuotas por Vencer";
+            this.Load += new System.EventHandler(this.FormVencimientos_Load);
             this.gbFiltros.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgvVencimientos)).EndInit();
             this.ResumeLayout(false);
@@ -361,6 +362,11 @@ namespace ClubDeportivoSystem.Forms
         }
 
         private void dgvVencimientos_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void FormVencimientos_Load(object sender, EventArgs e)
         {
 
         }

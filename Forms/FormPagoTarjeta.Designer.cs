@@ -246,7 +246,8 @@
             this.Controls.Add(this.lblTituloTarjeta);
             this.Controls.Add(this.gbDatosTarjeta);
             this.Name = "FormPagoTarjeta";
-            this.Text = "FormPagoTarjeta";
+            this.Text = "Pago con Tarjeta";
+            this.Load += new System.EventHandler(this.FormPagoTarjeta_Load);
             this.gbDatosTarjeta.ResumeLayout(false);
             this.gbDatosTarjeta.PerformLayout();
             this.ResumeLayout(false);

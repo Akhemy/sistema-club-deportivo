@@ -257,5 +257,10 @@ namespace ClubDeportivoSystem.Forms
             MessageBox.Show(mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             controlConError.Focus();
         }
+
+        private void FormPagoTarjeta_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
