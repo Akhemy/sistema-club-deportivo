@@ -2,6 +2,7 @@
 using ClubDeportivoSystem.Models;
 using System;
 using System.Drawing;
+using System.Net;
 using System.Windows.Forms;
 using static Org.BouncyCastle.Crypto.Engines.SM2Engine;
 
@@ -385,6 +386,12 @@ namespace ClubDeportivoSystem.Forms
                 MessageBox.Show("El DNI debe tener al menos 7 dígitos.", "Validación",
                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 txtDNI.Focus();
+                return false;
+            }
+            if (txtDNI.Text.StartsWith("0"))
+            {
+                MessageBox.Show("El DNI no puede comenzar con 0.", "Validación",
+                                MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return false;
             }
 

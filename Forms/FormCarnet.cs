@@ -190,16 +190,25 @@ namespace ClubDeportivoSystem.Forms
             {
                 string dni = txtBuscarSocio.Text.Trim();
 
-                if (string.IsNullOrEmpty(dni))
+                if (string.IsNullOrWhiteSpace(dni))
                 {
                     MessageBox.Show("Ingrese un DNI para buscar.", "Validación",
-                                  MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
-                if (dni.Length != 8)
+                if (dni.Length < 7 || dni.Length > 8)
                 {
-                    MessageBox.Show("El DNI debe tener exactamente 8 números.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show("El DNI debe tener entre 7 y 8 dígitos.", "Validación",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    txtBuscarSocio.Focus();
+                    return;
+                }
+
+                if (dni.StartsWith("0"))
+                {
+                    MessageBox.Show("El DNI no puede comenzar con 0.", "Validación",
+                                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     txtBuscarSocio.Focus();
                     return;
                 }
